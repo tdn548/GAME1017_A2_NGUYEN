@@ -152,7 +152,6 @@
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="States.cpp" />
     <ClCompile Include="TextureManager.cpp" />
-    <ClCompile Include="TiledLevel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button3.h" />
@@ -167,7 +166,6 @@
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="States.h" />
     <ClInclude Include="TextureManager.h" />
-    <ClInclude Include="TiledLevel.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Img\button.png" />

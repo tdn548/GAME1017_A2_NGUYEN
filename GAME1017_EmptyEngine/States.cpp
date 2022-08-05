@@ -92,10 +92,10 @@ void GameState::Enter() // Used for initialization.
 	TEMA::Load("Img/Tiles.png", "tiles");
 	TEMA::Load("Img/Player.png", "player");
 	//Add player object to objects vector
-	m_objects.push_back(pair<string , GameObject* >("level",
-		new TiledLevel(24,32,32,32,"Dat/Tiledata.txt", "Dat/Level1.txt", "tiles")));
+	/*m_objects.push_back(pair<string , GameObject* >("level",
+		new TiledLevel(24,32,32,32,"Dat/Tiledata.txt", "Dat/Level1.txt", "tiles")));*/
 	m_objects.push_back(pair<string, GameObject* >("player",
-		new PlatformPlayer({ 0,0,125,130 }, {400,400,64,64 })));
+		new PlatformPlayer({ 0,0,125,130 }, {400,400,128,128 })));
 
 	//m_objects.shrink_to_fit();
 }
@@ -120,43 +120,45 @@ void GameState::Update()
 		if (STMA::StateChanging()) return;
 	}
 	// check collision
-	PlatformPlayer* pObj = dynamic_cast<PlatformPlayer*>(GetGo("player"));
+	/*PlatformPlayer* pObj = dynamic_cast<PlatformPlayer*>(GetGo("player"));
 	SDL_FRect* pBound = pObj->GetDst();
-	TiledLevel* pLevel = dynamic_cast<TiledLevel*>(GetGo("level")); 
-	for (unsigned i = 0; i < pLevel->GetObstacles().size(); i++)
-	{
-		SDL_FRect* pTile = pLevel->GetObstacles()[i]->GetDst();
-		// do collision check Reverse if chck to cut down on nesting
-		if (!COMA::AABBCheck(*pBound,*pTile)) continue;
-		//if colliding with top side of tile
-			if ((pBound->y + pBound->h) - (float)pObj->GetVelY() <= pTile->y)
-			{
-				pObj->StopY();
-				pObj->SetY(pTile->y - pBound->h);
-				pObj->SetGrounded(true);
-			}
-		//	// if colliding with bottom side of tile
-			else if ((pBound->y)  -(float)pObj->GetVelY() >= (pTile->y + pTile->h ))
-			{
-				pObj->StopY();
-				pObj->SetY(pTile->y +  pTile->h);
-			}
-		//	// if colliding with left side of tile
-			else if ((pBound->x + pBound->w) - (float)pObj->GetVelX() <= pTile->x)
-			{
-				pObj->StopX();
-				pObj->SetX(pTile->x - pBound->w);
-			}
-		//	// if collising with right side of tile
-			else if ((pBound->x) - (float)pObj->GetVelX() >= (pTile->x + pTile->w))
-			{
-				pObj->StopX();
-				pObj->SetX(pTile->x + pTile->w);
-			}
-		//{
+	SDL_FRect* pLevelB;
+	SDL_FRect pLevel = { 0,700,1024,10 };*/
 
-		//}
-	}
+	//for (unsigned i = 0; i < pLevel->GetObstacles().size(); i++)
+	//{
+	//	SDL_FRect* pTile = pLevel->GetObstacles()[i]->GetDst();
+	////	// do collision check Reverse if chck to cut down on nesting
+	//	if (!COMA::AABBCheck(*pBound, pLevel)) continue;
+	////	//if colliding with top side of tile
+	//		if ((pBound->y + pBound->h) - (float)pObj->GetVelY() >= 700 && !COMA::AABBCheck(*pBound, pLevel))
+	//		{
+	//			pObj->StopY();
+	//			pObj->SetY(700 - pBound->h);
+	//			pObj->SetGrounded(true);
+			/*}*/
+		////	// if colliding with bottom side of tile
+		//	else if ((pBound->y)  -(float)pObj->GetVelY() >= (pTile->y + pTile->h ))
+		//	{
+		//		pObj->StopY();
+		//		pObj->SetY(pTile->y +  pTile->h);
+		//	}
+		////	// if colliding with left side of tile
+		//	else if ((pBound->x + pBound->w) - (float)pObj->GetVelX() <= pTile->x)
+		//	{
+		//		pObj->StopX();
+		//		pObj->SetX(pTile->x - pBound->w);
+		//	}
+		////	// if collising with right side of tile
+		//	else if ((pBound->x) - (float)pObj->GetVelX() >= (pTile->x + pTile->w))
+		//	{
+		//		pObj->StopX();
+		//		pObj->SetX(pTile->x + pTile->w);
+		//	}
+		////{
+
+		////}
+	/*}*/
 }
 
 void GameState::Render()

@@ -52,9 +52,6 @@
     <ClCompile Include="States.cpp">
       <Filter>States</Filter>
     </ClCompile>
-    <ClCompile Include="TiledLevel.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="PlatformPlayer.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
@@ -92,9 +89,6 @@
     </ClInclude>
     <ClInclude Include="States.h">
       <Filter>States</Filter>
-    </ClInclude>
-    <ClInclude Include="TiledLevel.h">
-      <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="PlatformPlayer.h">
       <Filter>Objects</Filter>

@@ -117,7 +117,7 @@ void PlatformPlayer::Update()
 			m_state = STATE_RUNNING;
 
 			// SetAnimation(?,?,?,?);
-			SetAnimation(3, 0, 8, 0);
+			SetAnimation(2, 8, 9, 0);
 		}
 		break;
 	case STATE_ROLLING:
@@ -177,7 +177,15 @@ void PlatformPlayer::Update()
 	m_velY = std::min(std::max(m_velY, -m_maxVelY), m_maxVelY);
 	m_dst.y += static_cast<float>(m_velY);
 	// reset acceleration . Accel is a one shot force  and only used in one frame
-	m_accelX = m_accelY = 0.0; 
+	m_accelX = m_accelY = 0.0;
+
+	// Boundary check so we don't fall off the screen
+	if (m_dst.y >= HEIGHT - 200)
+	{
+		StopY();
+		m_dst.y = HEIGHT - 200;
+		m_isGrounded = true;
+	}
 	 Animate();
 
 }
