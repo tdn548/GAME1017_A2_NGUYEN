@@ -13,7 +13,7 @@ m_maxVelX(9.0), m_maxVelY(JUMPFORCE), m_grav(GRAVITY), m_drag(0.85)
 	// Run spriteMin is 0 max is 8
 	// Jump spritemin is 8, max is 9
 	SetAnimation(2,8,9,0);
-	Animate();
+	
 }
 
 void PlatformPlayer::Update()
@@ -29,7 +29,7 @@ void PlatformPlayer::Update()
 			// // Run spriteMin is 0 max is 8
 			// Jump spritemin is 8, max is 9
 			SetAnimation(3, 0, 8, 0);
-			Animate();
+	
 		}
 		// Transition to jump.
 		else if (EVMA::KeyPressed(SDL_SCANCODE_SPACE) && m_isGrounded)
@@ -41,6 +41,11 @@ void PlatformPlayer::Update()
 			m_state = STATE_JUMPING;
 			SetAnimation(1, 8, 9, 0);
 
+		}
+		else if (EVMA::KeyPressed(SDL_SCANCODE_S) && m_isGrounded)
+		{
+			m_state = STATE_ROLLING;
+			SetAnimation(4, 0, 4, 128);
 		}
 		break;
 	case STATE_RUNNING:
@@ -67,8 +72,8 @@ void PlatformPlayer::Update()
 
 			// SetAnimation(?,?,?,?);
 			// because the sprite does not have idle so I changed sprite max from 1 to 2 and frame to 24 to see the change in idle
-			SetAnimation(1, 0, 1, 5);
-			Animate();
+			SetAnimation(1, 0, 1);
+	
 		}
 		// Transition to jump.
 		else if (EVMA::KeyPressed(SDL_SCANCODE_SPACE) && m_isGrounded)
@@ -81,7 +86,12 @@ void PlatformPlayer::Update()
 
 			// SetAnimation(?,?,?,?);
 			SetAnimation(1, 8, 9, 0);
-			Animate();
+		
+		}
+		if (EVMA::KeyPressed(SDL_SCANCODE_S) && m_isGrounded)
+		{
+			m_state = STATE_ROLLING;
+			SetAnimation(4, 0, 4, 128);
 		}
 		break;
 	case STATE_JUMPING:
@@ -108,9 +118,40 @@ void PlatformPlayer::Update()
 
 			// SetAnimation(?,?,?,?);
 			SetAnimation(3, 0, 8, 0);
-			Animate();
 		}
 		break;
+	case STATE_ROLLING:
+		if (EVMA::KeyReleased(SDL_SCANCODE_S))
+		{
+			m_state = STATE_IDLING;
+			SetAnimation(1, 0, 1);
+		}
+		if (EVMA::KeyHeld(SDL_SCANCODE_A))
+		{
+			// Set accelX to negative.
+			m_accelX = -1.5;
+			if (!m_isFacingLeft)
+				m_isFacingLeft = true;
+			if (EVMA::KeyReleased(SDL_SCANCODE_S))
+			{
+				m_state = STATE_RUNNING;
+				SetAnimation(3, 0, 8, 0);
+			}
+		}
+		else if (EVMA::KeyHeld(SDL_SCANCODE_D))
+		{
+			// Set accelX to positive.
+			m_accelX = 1.5;
+			if (m_isFacingLeft)
+				m_isFacingLeft = false;
+			if (EVMA::KeyReleased(SDL_SCANCODE_S))
+			{
+				m_state = STATE_RUNNING;
+				SetAnimation(3, 0, 8, 0);
+			}
+		}
+		break;
+
 	}
 	// Player movement. Universal for all states. X-axis first.
 	m_velX += m_accelX;
