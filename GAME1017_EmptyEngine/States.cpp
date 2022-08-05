@@ -108,6 +108,7 @@ void GameState::Update()
 	if (EVMA::KeyPressed(SDL_SCANCODE_P))
 	{
 		STMA::PushState(new PauseState());
+		m_timer.Pause();
 	}
 
 	if (EVMA::KeyPressed(SDL_SCANCODE_X))
@@ -197,7 +198,7 @@ void GameState::Exit()
 	m_objects.shrink_to_fit();
 }
 
-void GameState::Resume(){}
+void GameState::Resume(){ m_timer.Resume(); }
 // End GameState
 
 PauseState::PauseState() {}
@@ -222,7 +223,10 @@ void PauseState::Update()
 	}
 
 	if (EVMA::KeyPressed(SDL_SCANCODE_R))
+	{
 		STMA::PopState();
+		
+	}
 }
 
 void PauseState::Render()
