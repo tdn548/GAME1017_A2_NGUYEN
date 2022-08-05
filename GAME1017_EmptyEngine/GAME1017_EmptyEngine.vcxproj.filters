@@ -52,10 +52,13 @@
     <ClCompile Include="States.cpp">
       <Filter>States</Filter>
     </ClCompile>
-    <ClCompile Include="TiledLevel.cpp">
+    <ClCompile Include="PlatformPlayer.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="PlatformPlayer.cpp">
+    <ClCompile Include="FontManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>
@@ -93,10 +96,13 @@
     <ClInclude Include="States.h">
       <Filter>States</Filter>
     </ClInclude>
-    <ClInclude Include="TiledLevel.h">
+    <ClInclude Include="PlatformPlayer.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="PlatformPlayer.h">
+    <ClInclude Include="FontManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>

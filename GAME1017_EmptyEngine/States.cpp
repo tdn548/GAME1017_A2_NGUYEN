@@ -5,7 +5,7 @@
 #include "EventManager.h"
 #include "CollisionManager.h"
 #include "SoundManager.h"
-#include "Primitives.h"
+//#include "Primitives.h"
 #include "Button3.h"
 #include "PlatformPlayer.h"
 
@@ -91,11 +91,14 @@ void GameState::Enter() // Used for initialization.
 {
 	TEMA::Load("Img/Tiles.png", "tiles");
 	TEMA::Load("Img/Player.png", "player");
+	FOMA::Load("Img/ltype.TTF", "Label", 24);
 	//Add player object to objects vector
-	m_objects.push_back(pair<string , GameObject* >("level",
-		new TiledLevel(24,32,32,32,"Dat/Tiledata.txt", "Dat/Level1.txt", "tiles")));
+	/*m_objects.push_back(pair<string , GameObject* >("level",
+		new TiledLevel(24,32,32,32,"Dat/Tiledata.txt", "Dat/Level1.txt", "tiles")));*/
 	m_objects.push_back(pair<string, GameObject* >("player",
-		new PlatformPlayer({ 0,0,125,130 }, {400,400,64,64 })));
+		new PlatformPlayer({ 0,0,125,130 }, {400,400,128,128 })));
+	m_label = new Label("Label", WIDTH/2 - 80, 20, "Time: 0");
+	m_timer.Start();
 
 	//m_objects.shrink_to_fit();
 }
@@ -105,6 +108,7 @@ void GameState::Update()
 	if (EVMA::KeyPressed(SDL_SCANCODE_P))
 	{
 		STMA::PushState(new PauseState());
+		m_timer.Pause();
 	}
 
 	if (EVMA::KeyPressed(SDL_SCANCODE_X))
@@ -119,44 +123,47 @@ void GameState::Update()
 		i.second->Update();
 		if (STMA::StateChanging()) return;
 	}
+	m_timer.Update();
 	// check collision
-	PlatformPlayer* pObj = dynamic_cast<PlatformPlayer*>(GetGo("player"));
+	/*PlatformPlayer* pObj = dynamic_cast<PlatformPlayer*>(GetGo("player"));
 	SDL_FRect* pBound = pObj->GetDst();
-	TiledLevel* pLevel = dynamic_cast<TiledLevel*>(GetGo("level")); 
-	for (unsigned i = 0; i < pLevel->GetObstacles().size(); i++)
-	{
-		SDL_FRect* pTile = pLevel->GetObstacles()[i]->GetDst();
-		// do collision check Reverse if chck to cut down on nesting
-		if (!COMA::AABBCheck(*pBound,*pTile)) continue;
-		//if colliding with top side of tile
-			if ((pBound->y + pBound->h) - (float)pObj->GetVelY() <= pTile->y)
-			{
-				pObj->StopY();
-				pObj->SetY(pTile->y - pBound->h);
-				pObj->SetGrounded(true);
-			}
-		//	// if colliding with bottom side of tile
-			else if ((pBound->y)  -(float)pObj->GetVelY() >= (pTile->y + pTile->h ))
-			{
-				pObj->StopY();
-				pObj->SetY(pTile->y +  pTile->h);
-			}
-		//	// if colliding with left side of tile
-			else if ((pBound->x + pBound->w) - (float)pObj->GetVelX() <= pTile->x)
-			{
-				pObj->StopX();
-				pObj->SetX(pTile->x - pBound->w);
-			}
-		//	// if collising with right side of tile
-			else if ((pBound->x) - (float)pObj->GetVelX() >= (pTile->x + pTile->w))
-			{
-				pObj->StopX();
-				pObj->SetX(pTile->x + pTile->w);
-			}
-		//{
+	SDL_FRect* pLevelB;
+	SDL_FRect pLevel = { 0,700,1024,10 };*/
 
-		//}
-	}
+	//for (unsigned i = 0; i < pLevel->GetObstacles().size(); i++)
+	//{
+	//	SDL_FRect* pTile = pLevel->GetObstacles()[i]->GetDst();
+	////	// do collision check Reverse if chck to cut down on nesting
+	//	if (!COMA::AABBCheck(*pBound, pLevel)) continue;
+	////	//if colliding with top side of tile
+	//		if ((pBound->y + pBound->h) - (float)pObj->GetVelY() >= 700 && !COMA::AABBCheck(*pBound, pLevel))
+	//		{
+	//			pObj->StopY();
+	//			pObj->SetY(700 - pBound->h);
+	//			pObj->SetGrounded(true);
+			/*}*/
+		////	// if colliding with bottom side of tile
+		//	else if ((pBound->y)  -(float)pObj->GetVelY() >= (pTile->y + pTile->h ))
+		//	{
+		//		pObj->StopY();
+		//		pObj->SetY(pTile->y +  pTile->h);
+		//	}
+		////	// if colliding with left side of tile
+		//	else if ((pBound->x + pBound->w) - (float)pObj->GetVelX() <= pTile->x)
+		//	{
+		//		pObj->StopX();
+		//		pObj->SetX(pTile->x - pBound->w);
+		//	}
+		////	// if collising with right side of tile
+		//	else if ((pBound->x) - (float)pObj->GetVelX() >= (pTile->x + pTile->w))
+		//	{
+		//		pObj->StopX();
+		//		pObj->SetX(pTile->x + pTile->w);
+		//	}
+		////{
+
+		////}
+	/*}*/
 }
 
 void GameState::Render()
@@ -167,11 +174,20 @@ void GameState::Render()
 		i.second->Render();
 	if ( dynamic_cast<GameState*>(STMA::GetStates().back()) ) 
 		State::Render();
+	if (m_timer.HasChanged())
+	{
+		string newTime = "Time: " + m_timer.GetTime();
+		m_label->SetText(newTime.c_str());
+	}
+	m_label->Render();
+	// Draw anew.
+	SDL_RenderPresent(Engine::Instance().GetRenderer());
 }
 
 void GameState::Exit()
 {
 	TEMA::Unload("tiles");
+	FOMA::Quit();
 
 	for (auto& i : m_objects)
 	{
@@ -182,7 +198,7 @@ void GameState::Exit()
 	m_objects.shrink_to_fit();
 }
 
-void GameState::Resume(){}
+void GameState::Resume(){ m_timer.Resume(); }
 // End GameState
 
 PauseState::PauseState() {}
@@ -207,7 +223,10 @@ void PauseState::Update()
 	}
 
 	if (EVMA::KeyPressed(SDL_SCANCODE_R))
+	{
 		STMA::PopState();
+		
+	}
 }
 
 void PauseState::Render()

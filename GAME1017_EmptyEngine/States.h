@@ -4,6 +4,9 @@
 
 #include "TiledLevel.h"
 #include "GameObject.h"
+#include "Primitives.h"
+#include "FontManager.h"
+#include "Timer.h"
 
 class State // This is the abstract base class for all states
 {
@@ -21,7 +24,8 @@ protected: // Private but inherited
 
 	vector<std::pair<std::string, GameObject*>> m_objects; // hold all the gameobjects in the state
 
-
+	Label* m_label;
+	Timer m_timer;
 };
 
 class TitleState : public State
