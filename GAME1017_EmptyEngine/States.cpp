@@ -5,7 +5,7 @@
 #include "EventManager.h"
 #include "CollisionManager.h"
 #include "SoundManager.h"
-#include "Primitives.h"
+//#include "Primitives.h"
 #include "Button3.h"
 #include "PlatformPlayer.h"
 
@@ -91,11 +91,14 @@ void GameState::Enter() // Used for initialization.
 {
 	TEMA::Load("Img/Tiles.png", "tiles");
 	TEMA::Load("Img/Player.png", "player");
+	FOMA::Load("Img/ltype.TTF", "Label", 24);
 	//Add player object to objects vector
 	/*m_objects.push_back(pair<string , GameObject* >("level",
 		new TiledLevel(24,32,32,32,"Dat/Tiledata.txt", "Dat/Level1.txt", "tiles")));*/
 	m_objects.push_back(pair<string, GameObject* >("player",
 		new PlatformPlayer({ 0,0,125,130 }, {400,400,128,128 })));
+	m_label = new Label("Label", WIDTH/2 - 80, 20, "Time: 0");
+	m_timer.Start();
 
 	//m_objects.shrink_to_fit();
 }
@@ -119,6 +122,7 @@ void GameState::Update()
 		i.second->Update();
 		if (STMA::StateChanging()) return;
 	}
+	m_timer.Update();
 	// check collision
 	/*PlatformPlayer* pObj = dynamic_cast<PlatformPlayer*>(GetGo("player"));
 	SDL_FRect* pBound = pObj->GetDst();
@@ -169,11 +173,20 @@ void GameState::Render()
 		i.second->Render();
 	if ( dynamic_cast<GameState*>(STMA::GetStates().back()) ) 
 		State::Render();
+	if (m_timer.HasChanged())
+	{
+		string newTime = "Time: " + m_timer.GetTime();
+		m_label->SetText(newTime.c_str());
+	}
+	m_label->Render();
+	// Draw anew.
+	SDL_RenderPresent(Engine::Instance().GetRenderer());
 }
 
 void GameState::Exit()
 {
 	TEMA::Unload("tiles");
+	FOMA::Quit();
 
 	for (auto& i : m_objects)
 	{
