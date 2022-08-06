@@ -145,7 +145,8 @@ void GameState::Update()
 			field->shrink_to_fit();
 
 			Obstacle* temp = new Obstacle({ 539, 0 , 61, 66 },
-				{ 25.0f + rand() % 901, (i % 2 == 0 ? 25.0f : 600.0f) + (rand() % 76),
+				{ 900.0f + rand() % 100, //25.0f + rand() % 901, position x
+				600, //(i % 2 == 0 ? 25.0f : 600.0f) + (rand() % 76), position y
 					61.0f, 66.0f }); //source s and destination d
 
 			temp->SetColMods((rand() % 129), (rand() % 129), (rand() % 129));

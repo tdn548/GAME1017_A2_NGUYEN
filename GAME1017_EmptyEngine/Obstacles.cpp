@@ -56,7 +56,7 @@ ObstacleField::ObstacleField(unsigned int sz) :GameObject({ 0,0,0,0 }), m_size(s
 	{
 		
 		m_obstacle.push_back(new Obstacle({ 539, 0, 61, 66 },
-			{ 25.0f + rand() % 901, (i % 2 == 0 ? 25.0f : 600.0f) + (rand() % 76), 
+			{ 900.0f + rand() % 200, (i % 2 == 0 ? 25.0f : 600.0f) + (rand() % 76),
 			61.0f, 66.0f }));
 
 		m_obstacle.back()->SetColMods((rand() % 129), (rand() % 129), (rand() % 129));
