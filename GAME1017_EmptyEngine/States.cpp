@@ -48,6 +48,13 @@ TitleState::TitleState(){}
 
 void TitleState::Enter()
 {
+	//Add background
+
+	TEMA::Load("Img/far-buildings.png", "bg");
+	//SOMA::Load("Aud/Title.mp3", "title", SOUND_MUSIC);
+	m_objects.push_back(pair<string, GameObject*>("bg",
+		new Image({ 0, 0, 1920, 1200 }, { 0, 0, 1024, 768 }, "bg")));
+
 	TEMA::Load("Img/button.png", "play");
 	m_objects.push_back(pair<string, GameObject*>("play",
 		new PlayButton({ 0, 0, 400, 100 }, { 412, 350, 200, 50 }, "play")));

@@ -122,6 +122,12 @@
     <Image Include="Img\resume.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Img\foreground.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Img\far-buildings.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Dat\Level1.txt">
