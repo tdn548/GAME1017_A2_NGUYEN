@@ -147,6 +147,7 @@
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MathManager.cpp" />
+    <ClCompile Include="Obstacles.cpp" />
     <ClCompile Include="PlatformPlayer.cpp" />
     <ClCompile Include="Primitives.cpp" />
     <ClCompile Include="SoundManager.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="MathManager.h" />
+    <ClInclude Include="Obstacles.h" />
     <ClInclude Include="PlatformPlayer.h" />
     <ClInclude Include="Primitives.h" />
     <ClInclude Include="SoundManager.h" />
@@ -194,8 +196,10 @@
     <Image Include="Img\Quit_Button.png" />
     <Image Include="Img\resume.png" />
     <Image Include="Img\Resume_Button.png" />
+    <Image Include="Img\Sprites.png" />
     <Image Include="Img\Tiles.png" />
     <Image Include="Img\title-screen.png" />
+    <Image Include="Img\v-yellow.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Dat\Level1.txt" />

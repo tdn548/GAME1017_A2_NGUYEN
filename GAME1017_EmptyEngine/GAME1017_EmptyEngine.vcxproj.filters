@@ -61,6 +61,9 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Obstacles.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -103,6 +106,9 @@
       <Filter>Managers</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Obstacles.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
@@ -177,6 +183,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Img\Exit_Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Img\v-yellow.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Img\Sprites.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
