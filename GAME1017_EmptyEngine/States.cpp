@@ -104,10 +104,12 @@ void GameState::Enter() // Used for initialization.
 	TEMA::Load("Img/Player.png", "player");
 	FOMA::Load("Img/ltype.TTF", "Label", 24);
 	TEMA::Load("Img/Sprites.png", "sprites");
+	TEMA::Load("Img/bg.png", "background");
 
-	//Add player object to objects vector
-	/*m_objects.push_back(pair<string , GameObject* >("level",
-		new TiledLevel(24,32,32,32,"Dat/Tiledata.txt", "Dat/Level1.txt", "tiles")));*/
+	SOMA::Load("Img/Music/cyberpunk-street.mp3", "cyberpunk", SOUND_MUSIC);
+	SOMA::SetSoundVolume(16);
+	SOMA::SetMusicVolume(16);
+	SOMA::PlayMusic("cyberpunk", -1, 2000);
 
 	m_objects.push_back(pair<string, GameObject* >("player",
 		new PlatformPlayer({ 0,0,125,130 }, {400,400,128,128 })));
@@ -116,7 +118,19 @@ void GameState::Enter() // Used for initialization.
 	m_objects.push_back(pair<string, GameObject*>("astf",
 		new ObstacleField(12)));
 
-	//m_objects.shrink_to_fit();
+	
+
+	//Loading backgrounds into vector
+	m_bg.reserve(6);
+
+	m_bg.push_back(new Background({ 0,192,255,192 }, { 0,0,WIDTH,HEIGHT }, 1));
+	m_bg.push_back(new Background({ 0,192,255,192 }, { WIDTH,0,WIDTH,HEIGHT }, 1));
+
+	m_bg.push_back(new Background({ 0,0,255,192 }, { 0,0,WIDTH,HEIGHT }, 2));
+	m_bg.push_back(new Background({ 0,0,255,192 }, { WIDTH,0,WIDTH,HEIGHT }, 2));
+	
+	m_bg.push_back(new Background({ 257,0,355,192 }, { 0,0,WIDTH,HEIGHT }, 3));
+	m_bg.push_back(new Background({ 257,0,355,192 }, { WIDTH,0,WIDTH,HEIGHT }, 3));
 }
 
 void GameState::Update()
@@ -151,9 +165,9 @@ void GameState::Update()
 
 			/*temp->SetColMods((rand() % 129), (rand() % 129), (rand() % 129));*/
 			field->push_back(temp);
-	}
+		}
 	
-}
+	}
 
 	for (auto const& i : m_objects)
 	{
@@ -164,6 +178,10 @@ void GameState::Update()
 	}
 	m_timer.Update();
 
+	for (size_t i = 0; i < m_bg.size(); i++)
+	{
+		m_bg[i]->Update();
+	}
 	// check collision
 	/*PlatformPlayer* pObj = dynamic_cast<PlatformPlayer*>(GetGo("player"));
 	SDL_FRect* pBound = pObj->GetDst();
@@ -212,6 +230,10 @@ void GameState::Render()
 {
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, 255);
 	SDL_RenderClear(Engine::Instance().GetRenderer());
+	for (size_t i = 0; i < m_bg.size(); i++)
+	{
+		m_bg[i]->Render();
+	}
 	for (auto const& i : m_objects)
 		i.second->Render();
 	if ( dynamic_cast<GameState*>(STMA::GetStates().back()) ) 
@@ -230,7 +252,10 @@ void GameState::Exit()
 {
 	TEMA::Unload("tiles");
 	TEMA::Unload("sprites");
+	TEMA::Unload("background");
 	FOMA::Quit();
+	SOMA::StopMusic();
+	SOMA::Unload("wings", SOUND_MUSIC);
 
 	for (auto& i : m_objects)
 	{
