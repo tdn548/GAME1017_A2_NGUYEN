@@ -258,7 +258,10 @@ void GameState::Exit()
 	TEMA::Unload("background");
 	FOMA::Quit();
 	SOMA::StopMusic();
+	SOMA::StopSound();
 	SOMA::Unload("wings", SOUND_MUSIC);
+	SOMA::Unload( "jump", SOUND_SFX);
+	SOMA::Unload("roll", SOUND_SFX);
 
 	for (auto& i : m_objects)
 	{
