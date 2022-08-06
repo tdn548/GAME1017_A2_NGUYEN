@@ -64,6 +64,9 @@
     <ClCompile Include="Obstacles.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Background.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -109,6 +112,9 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Obstacles.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Background.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
