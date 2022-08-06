@@ -48,6 +48,7 @@ void PlatformPlayer::Update()
 		{
 			m_state = STATE_ROLLING;
 			SetAnimation(4, 0, 4, 128);
+			SOMA::PlaySound("roll", -1,2);
 		}
 		break;
 	case STATE_RUNNING:
@@ -95,6 +96,7 @@ void PlatformPlayer::Update()
 		{
 			m_state = STATE_ROLLING;
 			SetAnimation(4, 0, 4, 128);
+			SOMA::PlaySound("roll", -1, 2);
 		}
 		break;
 	case STATE_JUMPING:
@@ -128,6 +130,7 @@ void PlatformPlayer::Update()
 		{
 			m_state = STATE_IDLING;
 			SetAnimation(1, 0, 1);
+			SOMA::StopSound(2);
 		}
 		if (EVMA::KeyHeld(SDL_SCANCODE_A))
 		{
