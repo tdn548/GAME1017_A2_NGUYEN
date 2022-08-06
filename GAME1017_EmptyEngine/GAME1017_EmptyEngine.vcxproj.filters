@@ -134,6 +134,51 @@
     <Image Include="Img\title-screen.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Img\credits-text.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Img\button\Back  col_Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Img\button\Continue  col_Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Img\button\Controls  col_Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Img\button\Exit  col_Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Img\button\Load  col_Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Img\button\New Game  col_Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Img\button\Options  col_Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Img\button\Play col_Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Img\button\Settings  col_Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Img\button\Start  col_Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Img\Menu_Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Img\Quit_Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Img\Resume_Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Img\Exit_Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Dat\Level1.txt">

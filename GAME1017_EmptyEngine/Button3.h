@@ -19,6 +19,14 @@ protected:
 	virtual void Execute() = 0; // Button3 is an abstract base class.
 };
 
+class MenuButton : public Button3
+{
+private:
+	void Execute(); //call back
+public:
+	MenuButton(SDL_Rect s, SDL_FRect d, const char* k);
+};
+
 class PlayButton : public Button3
 {
 private:
@@ -41,6 +49,14 @@ private:
 	void Execute();
 public:
 	ResumeButton(SDL_Rect s, SDL_FRect d, const char* k);
+};
+
+class QuitButton : public Button3
+{
+private:
+	void Execute();
+public:
+	QuitButton(SDL_Rect s, SDL_FRect d, const char* k);
 };
 #endif
 

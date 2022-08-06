@@ -174,11 +174,26 @@
   <ItemGroup>
     <Image Include="Img\bg-2.png" />
     <Image Include="Img\button.png" />
+    <Image Include="Img\button\Back  col_Button.png" />
+    <Image Include="Img\button\Continue  col_Button.png" />
+    <Image Include="Img\button\Controls  col_Button.png" />
+    <Image Include="Img\button\Exit  col_Button.png" />
+    <Image Include="Img\button\Load  col_Button.png" />
+    <Image Include="Img\button\New Game  col_Button.png" />
+    <Image Include="Img\button\Options  col_Button.png" />
+    <Image Include="Img\button\Play col_Button.png" />
+    <Image Include="Img\button\Settings  col_Button.png" />
+    <Image Include="Img\button\Start  col_Button.png" />
+    <Image Include="Img\credits-text.png" />
     <Image Include="Img\exit.png" />
+    <Image Include="Img\Exit_Button.png" />
     <Image Include="Img\far-buildings.png" />
     <Image Include="Img\foreground.png" />
+    <Image Include="Img\Menu_Button.png" />
     <Image Include="Img\Player.png" />
+    <Image Include="Img\Quit_Button.png" />
     <Image Include="Img\resume.png" />
+    <Image Include="Img\Resume_Button.png" />
     <Image Include="Img\Tiles.png" />
     <Image Include="Img\title-screen.png" />
   </ItemGroup>

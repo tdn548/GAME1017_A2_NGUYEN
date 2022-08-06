@@ -1,4 +1,4 @@
-#include "Timer.h"
+ #include "Timer.h"
 
 Timer::Timer():m_started(false), m_running(false), m_hasChanged(false), m_elapsed(0), m_elapsedTotal(0), m_startTime(0), m_lastTime(0), m_currentTime(0)
 {

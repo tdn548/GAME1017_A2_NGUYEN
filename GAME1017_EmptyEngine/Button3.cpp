@@ -42,6 +42,13 @@ void Button3::Render()
 	SDL_RenderCopyF(Engine::Instance().GetRenderer(), TEMA::GetTexture(m_key), &m_src, &m_dst);
 }
 
+MenuButton::MenuButton(SDL_Rect s, SDL_FRect d, const char* k) :Button3(s, d, k) {}
+
+void MenuButton::Execute()//callback method
+{
+	STMA::ChangeState(new TitleState());
+}
+
 PlayButton::PlayButton(SDL_Rect s, SDL_FRect d, const char* k) :Button3(s, d, k) {}
 
 void PlayButton::Execute()//callback method
@@ -63,3 +70,9 @@ void ResumeButton::Execute()
 	STMA::PopState();
 }
 
+QuitButton::QuitButton(SDL_Rect s, SDL_FRect d, const char* k) :Button3(s, d, k) {}
+
+void QuitButton::Execute()//callback method
+{
+	SDL_Quit();
+}

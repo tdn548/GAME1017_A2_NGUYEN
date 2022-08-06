@@ -51,12 +51,10 @@ void TitleState::Enter()
 	//Add background
 
 	TEMA::Load("Img/bg-2.png", "bg");
-	//SOMA::Load("Aud/Title.mp3", "title", SOUND_MUSIC);
 	m_objects.push_back(pair<string, GameObject*>("bg",
 		new Image({ 0, 0, 1920, 1200 }, { 0, 0, 1024, 768 }, "bg")));
 
 	TEMA::Load("Img/title-screen.png", "title");
-	//SOMA::Load("Aud/Title.mp3", "title", SOUND_MUSIC);
 	m_objects.push_back(pair<string, GameObject*>("title",
 		new Image({ 0, 0, 1920, 1200 }, { 250, 300, 501,159 }, "title")));
 
@@ -217,13 +215,13 @@ PauseState::PauseState() {}
 
 void PauseState::Enter()
 {
-	TEMA::Load("img/resume.png", "resume");
+	TEMA::Load("img/Resume_Button.png", "resume");
 	m_objects.push_back(pair<string, GameObject*>("resume",
-		new ResumeButton({ 0, 0, 200, 100 }, { 510, 380, 200, 50 }, "resume")));
+		new ResumeButton({ 0, 0, 600, 200 }, { 510, 380, 200, 50 }, "resume")));
 
-	TEMA::Load("img/exit.png", "exit");
+	TEMA::Load("img/Exit_Button.png", "exit");
 	m_objects.push_back(pair<string, GameObject*>("exit",
-		new EndButton({ 0, 0, 400, 100 }, { 510, 480, 200, 50 }, "exit")));
+		new EndButton({ 0, 0, 600, 200 }, { 510, 480, 200, 50 }, "exit")));
 }
 
 void PauseState::Update()
@@ -248,8 +246,8 @@ void PauseState::Render()
 	// Now render the rest of PauseState.
 	SDL_SetRenderDrawBlendMode(Engine::Instance().GetRenderer(), SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 255, 128);
-	SDL_Rect rect = { 255, 128, 512, 512 };
-	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &rect);
+	//SDL_Rect rect = { 255, 128, 512, 512 };
+	//SDL_RenderFillRect(Engine::Instance().GetRenderer(), &rect);
 
 	for (auto const& i : m_objects)
 		i.second->Render();
@@ -279,9 +277,21 @@ EndState::EndState()
 
 void EndState::Enter()
 {
-	TEMA::Load("Img/button.png", "play");
-	m_objects.push_back(pair<string, GameObject*>("play",
-		new PlayButton({ 0, 0, 400, 100 }, { 412, 350, 200, 50 }, "play")));
+	TEMA::Load("Img/foreground.png", "end");
+	m_objects.push_back(pair<string, GameObject*>("end",
+		new Image({ 0, 0, 1920, 1200 }, { 0, 0, 1024, 768 }, "end")));
+
+	TEMA::Load("Img/credits-text.png", "credit");
+	m_objects.push_back(pair<string, GameObject*>("credit",
+		new Image({ 0, 0, 1920, 1200 }, { 250, 470, 500, 44 }, "credit")));
+
+	TEMA::Load("Img/Menu_Button.png", "menu");
+	m_objects.push_back(pair<string, GameObject*>("menu",
+		new MenuButton({ 0, 0, 600, 200 }, { 412, 300, 200, 50 }, "menu")));
+
+	TEMA::Load("Img/Quit_Button.png", "quit");
+	m_objects.push_back(pair<string, GameObject*>("quit",
+		new QuitButton({ 0, 0, 600, 200 }, { 412, 400, 200, 50 }, "quit")));
 }
 
 void EndState::Update()
