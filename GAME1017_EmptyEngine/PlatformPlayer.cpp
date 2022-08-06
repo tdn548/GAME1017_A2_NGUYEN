@@ -1,5 +1,6 @@
 #include "PlatformPlayer.h"
 #include "EventManager.h"
+#include "SoundManager.h"
 #include "TextureManager.h"
 #include <cmath>
 
@@ -40,6 +41,7 @@ void PlatformPlayer::Update()
 			// Set state to jumping.
 			m_state = STATE_JUMPING;
 			SetAnimation(1, 8, 9, 0);
+			SOMA::PlaySound("jump");
 
 		}
 		else if (EVMA::KeyPressed(SDL_SCANCODE_S) && m_isGrounded)
@@ -86,6 +88,7 @@ void PlatformPlayer::Update()
 
 			// SetAnimation(?,?,?,?);
 			SetAnimation(1, 8, 9, 0);
+			SOMA::PlaySound("jump");
 		
 		}
 		if (EVMA::KeyPressed(SDL_SCANCODE_S) && m_isGrounded)

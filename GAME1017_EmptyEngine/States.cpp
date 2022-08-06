@@ -106,6 +106,7 @@ void GameState::Enter() // Used for initialization.
 	TEMA::Load("Img/Sprites.png", "sprites");
 	TEMA::Load("Img/bg.png", "background");
 
+	SOMA::Load("Img/sound/SFX_Jump.wav", "jump", SOUND_SFX);
 	SOMA::Load("Img/Music/cyberpunk-street.mp3", "cyberpunk", SOUND_MUSIC);
 	SOMA::SetSoundVolume(16);
 	SOMA::SetMusicVolume(16);
