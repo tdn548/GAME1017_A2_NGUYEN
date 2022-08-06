@@ -107,10 +107,12 @@ void GameState::Enter() // Used for initialization.
 	TEMA::Load("Img/bg.png", "background");
 
 	SOMA::Load("Img/sound/SFX_Jump.wav", "jump", SOUND_SFX);
+	SOMA::Load("Img/sound/Rolling.mp3", "roll", SOUND_SFX);
 	SOMA::Load("Img/Music/cyberpunk-street.mp3", "cyberpunk", SOUND_MUSIC);
 	SOMA::SetSoundVolume(16);
 	SOMA::SetMusicVolume(16);
 	SOMA::PlayMusic("cyberpunk", -1, 2000);
+
 
 	m_objects.push_back(pair<string, GameObject* >("player",
 		new PlatformPlayer({ 0,0,125,130 }, {400,400,128,128 })));
