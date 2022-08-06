@@ -92,6 +92,7 @@ void GameState::Enter() // Used for initialization.
 	TEMA::Load("Img/Tiles.png", "tiles");
 	TEMA::Load("Img/Player.png", "player");
 	FOMA::Load("Img/ltype.TTF", "Label", 24);
+	SOMA::Load("Aud/cyberpunk-street.mp3", "cyber", SOUND_MUSIC);
 	//Add player object to objects vector
 	/*m_objects.push_back(pair<string , GameObject* >("level",
 		new TiledLevel(24,32,32,32,"Dat/Tiledata.txt", "Dat/Level1.txt", "tiles")));*/
@@ -99,7 +100,8 @@ void GameState::Enter() // Used for initialization.
 		new PlatformPlayer({ 0,0,125,130 }, {400,400,128,128 })));
 	m_label = new Label("Label", WIDTH/2 - 80, 20, "Time: 0");
 	m_timer.Start();
-
+	SOMA::SetMusicVolume(32);
+	SOMA::PlayMusic("cyber", -1, 2000);
 	//m_objects.shrink_to_fit();
 }
 
@@ -188,6 +190,7 @@ void GameState::Exit()
 {
 	TEMA::Unload("tiles");
 	FOMA::Quit();
+	SOMA::Unload("cyber", SOUND_MUSIC);
 
 	for (auto& i : m_objects)
 	{
