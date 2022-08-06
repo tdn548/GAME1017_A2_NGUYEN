@@ -5,27 +5,36 @@
 #include <time.h>
 
 Obstacle::Obstacle(SDL_Rect s, SDL_FRect d) : SpriteObject(s, d),
-m_angle(0.0), m_radius(33.0)
+m_angle(0.0), m_radius(33.0),m_rotSpeed(0)
 {
 	m_center = { (m_dst.x + m_dst.w / 2.0f), (m_dst.y + m_dst.h / 2.0f) }; 
-	m_rotSpeed = (1.0 + rand() % 5) * (rand() % 2 * 2.0 - 1.0); // -1 or 1
 	MAMA::SetDeltas(MAMA::Deg2Rad((rand() % 360) - 90.0), m_dx, m_dy, 2.0f, 2.0f);
 }
 
 void Obstacle::Update()
 {
+	m_center.x -= kScollSpeed;
+
+
 	// Rotate and move object.
-	m_angle += m_rotSpeed;
-	m_center.x += (float)m_dx;
-	m_center.y += (float)m_dy;
+	//m_center.x -= (float)m_dx;
+	//m_center.y += (float)m_dy;
+
 	// Wrap on screen.
-	if (m_center.x < -m_dst.w / 2) m_center.x = WIDTH + m_dst.w / 2;
-	else if (m_center.x > WIDTH + m_dst.w / 2) m_center.x = 0 - m_dst.w / 2;
-	else if (m_center.y < -m_dst.h / 2) m_center.y = HEIGHT + m_dst.h / 2;
-	else if (m_center.y > HEIGHT + m_dst.h / 2) m_center.y = 0 - m_dst.h / 2;
-	// Update dest rectangle.
-	m_dst.x = m_center.x - m_dst.w / 2;
-	m_dst.y = m_center.y - m_dst.h / 2;
+	//if (m_center.x < -m_dst.w / 2) m_center.x = WIDTH + m_dst.w / 2;
+	//else if (m_center.x > WIDTH + m_dst.w / 2) m_center.x = 0 - m_dst.w / 2;
+	//else if (m_center.y < -m_dst.h / 2) m_center.y = HEIGHT + m_dst.h / 2;
+	//else if (m_center.y > HEIGHT + m_dst.h / 2) m_center.y = 0 - m_dst.h / 2;
+	 //Update dest rectangle.
+
+	m_dst.x = m_center.x;
+	m_dst.y = 600.0f ;
+	//m_dst.x = m_center.x - m_dst.w / 2;
+
+	//m_dst.y = m_center.y - m_dst.h / 2;
+
+	// Check if first column of main vector goes out of bounds.
+
 }
 
 void Obstacle::Render()
@@ -70,6 +79,7 @@ void ObstacleField::Update()
 {
 	for (const auto a : m_obstacle)
 		a->Update();
+
 }
 
 void ObstacleField::Render()

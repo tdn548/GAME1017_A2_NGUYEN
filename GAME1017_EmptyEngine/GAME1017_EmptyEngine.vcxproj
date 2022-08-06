@@ -196,8 +196,10 @@
     <Image Include="Img\Quit_Button.png" />
     <Image Include="Img\resume.png" />
     <Image Include="Img\Resume_Button.png" />
+    <Image Include="Img\Sprites.png" />
     <Image Include="Img\Tiles.png" />
     <Image Include="Img\title-screen.png" />
+    <Image Include="Img\v-yellow.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Dat\Level1.txt" />

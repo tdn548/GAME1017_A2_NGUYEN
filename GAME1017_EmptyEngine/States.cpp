@@ -8,6 +8,7 @@
 //#include "Primitives.h"
 #include "Button3.h"
 #include "PlatformPlayer.h"
+#include "Obstacles.h"
 
 #include <iostream>
 using namespace std;
@@ -102,13 +103,18 @@ void GameState::Enter() // Used for initialization.
 	TEMA::Load("Img/Tiles.png", "tiles");
 	TEMA::Load("Img/Player.png", "player");
 	FOMA::Load("Img/ltype.TTF", "Label", 24);
+	TEMA::Load("Img/Sprites.png", "sprites");
+
 	//Add player object to objects vector
 	/*m_objects.push_back(pair<string , GameObject* >("level",
 		new TiledLevel(24,32,32,32,"Dat/Tiledata.txt", "Dat/Level1.txt", "tiles")));*/
+
 	m_objects.push_back(pair<string, GameObject* >("player",
 		new PlatformPlayer({ 0,0,125,130 }, {400,400,128,128 })));
 	m_label = new Label("Label", WIDTH/2 - 80, 20, "Time: 0");
 	m_timer.Start();
+	m_objects.push_back(pair<string, GameObject*>("astf",
+		new ObstacleField(12)));
 
 	//m_objects.shrink_to_fit();
 }
@@ -126,6 +132,28 @@ void GameState::Update()
 		STMA::ChangeState(new TitleState());
 		return;
 	}
+
+
+	vector<Obstacle*>* field = &static_cast<ObstacleField*>(GetGo("astf"))->GetObstacle();
+	for (int i = 0; i <= field->size(); i++)
+	{
+		if (field->at(0) != nullptr && field->at(0)->GetDst()->x <= -field->at(0)->GetDst()->w)
+		{
+			delete field->at(0);
+			field->at(0) = nullptr;
+			field->erase(field->begin());
+			field->shrink_to_fit();
+
+			Obstacle* temp = new Obstacle({ 539, 0 , 61, 66 },
+				{ 25.0f + rand() % 901, (i % 2 == 0 ? 25.0f : 600.0f) + (rand() % 76),
+					61.0f, 66.0f }); //source s and destination d
+
+			temp->SetColMods((rand() % 129), (rand() % 129), (rand() % 129));
+			field->push_back(temp);
+	}
+	
+}
+
 	for (auto const& i : m_objects)
 	{
 		//i.first is string key
@@ -134,6 +162,7 @@ void GameState::Update()
 		if (STMA::StateChanging()) return;
 	}
 	m_timer.Update();
+
 	// check collision
 	/*PlatformPlayer* pObj = dynamic_cast<PlatformPlayer*>(GetGo("player"));
 	SDL_FRect* pBound = pObj->GetDst();
@@ -174,6 +203,8 @@ void GameState::Update()
 
 		////}
 	/*}*/
+
+
 }
 
 void GameState::Render()
@@ -197,6 +228,7 @@ void GameState::Render()
 void GameState::Exit()
 {
 	TEMA::Unload("tiles");
+	TEMA::Unload("sprites");
 	FOMA::Quit();
 
 	for (auto& i : m_objects)

@@ -23,6 +23,7 @@ public:
 
 	void SetColMods(Uint8 r, Uint8 g, Uint8 b);
 private:
+	static const int kScollSpeed = 1;
 	SDL_FPoint m_center;
 	double m_angle,
 		m_dx, m_dy,
