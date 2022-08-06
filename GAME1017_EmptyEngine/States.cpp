@@ -285,9 +285,9 @@ void EndState::Enter()
 	m_objects.push_back(pair<string, GameObject*>("credit",
 		new Image({ 0, 0, 1920, 1200 }, { 250, 470, 500, 44 }, "credit")));
 
-	TEMA::Load("Img/Menu_Button.png", "menu");
+	TEMA::Load("Img/menu2.png", "menu");
 	m_objects.push_back(pair<string, GameObject*>("menu",
-		new MenuButton({ 0, 0, 600, 200 }, { 412, 300, 200, 50 }, "menu")));
+		new MenuButton({ 0, 0, 396, 200 }, { 412, 300, 200, 50 }, "menu")));
 
 	TEMA::Load("Img/Quit_Button.png", "quit");
 	m_objects.push_back(pair<string, GameObject*>("quit",
