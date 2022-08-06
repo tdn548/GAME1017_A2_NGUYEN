@@ -172,6 +172,7 @@
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Img\bg-2.png" />
     <Image Include="Img\button.png" />
     <Image Include="Img\exit.png" />
     <Image Include="Img\far-buildings.png" />
@@ -179,6 +180,7 @@
     <Image Include="Img\Player.png" />
     <Image Include="Img\resume.png" />
     <Image Include="Img\Tiles.png" />
+    <Image Include="Img\title-screen.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Dat\Level1.txt" />
