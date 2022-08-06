@@ -149,7 +149,7 @@ void GameState::Update()
 				600, //(i % 2 == 0 ? 25.0f : 600.0f) + (rand() % 76), position y
 					61.0f, 66.0f }); //source s and destination d
 
-			temp->SetColMods((rand() % 129), (rand() % 129), (rand() % 129));
+			/*temp->SetColMods((rand() % 129), (rand() % 129), (rand() % 129));*/
 			field->push_back(temp);
 	}
 	
