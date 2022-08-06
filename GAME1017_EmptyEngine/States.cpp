@@ -105,8 +105,11 @@ void GameState::Enter() // Used for initialization.
 	FOMA::Load("Img/ltype.TTF", "Label", 24);
 	TEMA::Load("Img/Sprites.png", "sprites");
 	TEMA::Load("Img/bg.png", "background");
-	
 
+	SOMA::Load("Img/Music/cyberpunk-street.mp3", "cyberpunk", SOUND_MUSIC);
+	SOMA::SetSoundVolume(16);
+	SOMA::SetMusicVolume(16);
+	SOMA::PlayMusic("cyberpunk", -1, 2000);
 
 	m_objects.push_back(pair<string, GameObject* >("player",
 		new PlatformPlayer({ 0,0,125,130 }, {400,400,128,128 })));
@@ -115,8 +118,11 @@ void GameState::Enter() // Used for initialization.
 	m_objects.push_back(pair<string, GameObject*>("astf",
 		new ObstacleField(12)));
 
-	m_bg.reserve(6);
+	
+
 	//Loading backgrounds into vector
+	m_bg.reserve(6);
+
 	m_bg.push_back(new Background({ 0,192,255,192 }, { 0,0,WIDTH,HEIGHT }, 1));
 	m_bg.push_back(new Background({ 0,192,255,192 }, { WIDTH,0,WIDTH,HEIGHT }, 1));
 
@@ -246,7 +252,10 @@ void GameState::Exit()
 {
 	TEMA::Unload("tiles");
 	TEMA::Unload("sprites");
+	TEMA::Unload("background");
 	FOMA::Quit();
+	SOMA::StopMusic();
+	SOMA::Unload("wings", SOUND_MUSIC);
 
 	for (auto& i : m_objects)
 	{
