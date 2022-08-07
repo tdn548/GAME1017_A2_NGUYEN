@@ -2,6 +2,7 @@
 #include "EventManager.h"
 #include "SoundManager.h"
 #include "TextureManager.h"
+#include "StateManager.h"
 #include <cmath>
 
 PlatformPlayer::PlatformPlayer(SDL_Rect s, SDL_FRect d) :AnimatedSpriteObject(s, d),
@@ -19,6 +20,11 @@ m_maxVelX(9.0), m_maxVelY(JUMPFORCE), m_grav(GRAVITY), m_drag(0.85)
 
 void PlatformPlayer::Update()
 {
+	if (timer > 0)
+	{
+		timer--;
+	}
+
 	switch (m_state) // Inside each case is the behaviour in and transitions from that state.
 	{
 	case STATE_IDLING:
@@ -49,6 +55,12 @@ void PlatformPlayer::Update()
 			m_state = STATE_ROLLING;
 			SetAnimation(4, 0, 4, 128);
 			SOMA::PlaySound("roll", -1,2);
+		}
+		else if (EVMA::KeyPressed(SDL_SCANCODE_1))
+		{
+			m_state = STATE_DEATH;
+			SetAnimation(8, 4, 9, 128);
+			timer = 44;
 		}
 		break;
 	case STATE_RUNNING:
@@ -155,6 +167,14 @@ void PlatformPlayer::Update()
 				m_state = STATE_RUNNING;
 				SetAnimation(3, 0, 8, 0);
 			}
+		}
+		break;
+	case STATE_DEATH:
+		
+		
+		if (timer <= 0)
+		{
+			STMA::ChangeState(new EndState());
 		}
 		break;
 

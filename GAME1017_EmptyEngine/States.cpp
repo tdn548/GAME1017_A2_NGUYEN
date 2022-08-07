@@ -120,7 +120,7 @@ void GameState::Enter() // Used for initialization.
 	m_timer.Start();
 	/*m_objects.push_back(pair<string, GameObject*>("astf",
 		new ObstacleField(2)));*/
-	m_obstacle.push_back(new Obstacle({ 0, 60, 96, 60 }, { WIDTH + 96 ,500,230,200 }));
+	m_obstacle.push_back(new Obstacle({ 0, 60, 96, 60 }, { WIDTH + 96 ,400,230,200 }));
 	
 
 	//Loading backgrounds into vector
@@ -155,7 +155,21 @@ void GameState::Update()
 		if (i->GetDst()->x <= WIDTH/2 && !i->getPassedMid())
 		{
 			i->setPassedMid(true);
-			m_obstacle.push_back(new Obstacle({ 163, 0, 96, 60 }, { WIDTH + 96 ,600,130,100 }));
+
+			switch (rand() % 3 + 1)
+			{
+			case 1:
+				m_obstacle.push_back(new Obstacle({ 163, 0, 96, 60 }, { WIDTH + 96 ,600,130,100 }));
+				break;
+			case 2:
+				m_obstacle.push_back(new Obstacle({ 0, 0, 163, 60 }, { WIDTH + 163 ,600,183,80 }));
+				break;
+			case 3:
+				m_obstacle.push_back(new Obstacle({ 0, 60, 96, 60 }, { WIDTH + 96 ,400,230,200 }));
+				break;
+
+			}
+			
 		}
 	}
 	//vector<Obstacle*>* field = &static_cast<ObstacleField*>(GetGo("astf"))->GetObstacle();
@@ -310,6 +324,13 @@ void GameState::Exit()
 		delete i.second; 
 		i.second = nullptr;
 	}
+
+	for (auto& i: m_obstacle)
+	{
+		delete i;
+		i = nullptr;
+	}
+
 	m_objects.clear();
 	m_objects.shrink_to_fit();
 
