@@ -15,7 +15,7 @@ void Obstacle::Update()
 {
 	m_dst.x -= kScollSpeed;
 	//m_dst.x = m_center.x;
-	m_dst.y = 600.0f ;
+	//m_dst.y = 600.0f ;
 
 
 }
@@ -38,7 +38,8 @@ ObstacleField::ObstacleField(unsigned int sz) :GameObject({ 0,0,0,0 }), m_size(s
 	for (int i = 0; i < m_size; i++)
 	{
 		m_obstacle.push_back(new Obstacle({ 539, 0, 61, 66 },
-			{ 900.0f + rand() % 200, (i % 2 == 0 ? 25.0f : 600.0f) + (rand() % 76),
+			{ 1000.0f + rand() % 900, 
+			(i % 2 == 0 ? 550.0f : 600.0f) ,//(i % 2 == 0 ? 25.0f : 600.0f) + (rand() % 76),
 			61.0f, 66.0f }));
 
 		/*m_obstacle.back()->SetColMods((rand() % 129), (rand() % 129), (rand() % 129));*/

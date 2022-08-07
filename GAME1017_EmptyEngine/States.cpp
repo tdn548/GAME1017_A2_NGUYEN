@@ -115,11 +115,11 @@ void GameState::Enter() // Used for initialization.
 
 
 	m_objects.push_back(pair<string, GameObject* >("player",
-		new PlatformPlayer({ 0,0,125,130 }, {400,400,128,128 })));
+		new PlatformPlayer({ 0,0,125,130 }, {50,400,128,128 })));
 	m_label = new Label("Label", WIDTH/2 - 80, 20, "Time: 0");
 	m_timer.Start();
 	m_objects.push_back(pair<string, GameObject*>("astf",
-		new ObstacleField(12)));
+		new ObstacleField(2)));
 
 	
 
@@ -162,8 +162,8 @@ void GameState::Update()
 			field->shrink_to_fit();
 
 			Obstacle* temp = new Obstacle({ 539, 0 , 61, 66 },
-				{ 900.0f + rand() % 100, //25.0f + rand() % 901, position x
-				600, //(i % 2 == 0 ? 25.0f : 600.0f) + (rand() % 76), position y
+				{ 1000.0f + rand() % 900, //25.0f + rand() % 901, position x
+				(i % 2 == 0 ? 550.0f : 600.0f), //(i % 2 == 0 ? 25.0f : 600.0f) + (rand() % 76), position y
 					61.0f, 66.0f }); //source s and destination d
 
 			/*temp->SetColMods((rand() % 129), (rand() % 129), (rand() % 129));*/
