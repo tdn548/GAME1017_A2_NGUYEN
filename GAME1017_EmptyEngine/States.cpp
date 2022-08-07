@@ -8,7 +8,7 @@
 //#include "Primitives.h"
 #include "Button3.h"
 #include "PlatformPlayer.h"
-#include "Obstacles.h"
+
 
 #include <iostream>
 using namespace std;
@@ -118,9 +118,9 @@ void GameState::Enter() // Used for initialization.
 		new PlatformPlayer({ 0,0,125,130 }, {50,400,128,128 })));
 	m_label = new Label("Label", WIDTH/2 - 80, 20, "Time: 0");
 	m_timer.Start();
-	m_objects.push_back(pair<string, GameObject*>("astf",
-		new ObstacleField(2)));
-
+	/*m_objects.push_back(pair<string, GameObject*>("astf",
+		new ObstacleField(2)));*/
+	m_pObstacle = new Obstacle({ 539, 0, 61, 66 }, { WIDTH + 61 ,600,61,66 });
 	
 
 	//Loading backgrounds into vector
@@ -151,26 +151,26 @@ void GameState::Update()
 	}
 
 
-	vector<Obstacle*>* field = &static_cast<ObstacleField*>(GetGo("astf"))->GetObstacle();
-	for (int i = 0; i <= field->size(); i++)
-	{
-		if (field->at(0) != nullptr && field->at(0)->GetDst()->x <= -field->at(0)->GetDst()->w)
-		{
-			delete field->at(0);
-			field->at(0) = nullptr;
-			field->erase(field->begin());
-			field->shrink_to_fit();
+	//vector<Obstacle*>* field = &static_cast<ObstacleField*>(GetGo("astf"))->GetObstacle();
+	//for (int i = 0; i <= field->size(); i++)
+	//{
+	//	if (field->at(0) != nullptr && field->at(0)->GetDst()->x <= -field->at(0)->GetDst()->w)
+	//	{
+	//		delete field->at(0);
+	//		field->at(0) = nullptr;
+	//		field->erase(field->begin());
+	//		field->shrink_to_fit();
 
-			Obstacle* temp = new Obstacle({ 539, 0 , 61, 66 },
-				{ 1000.0f + rand() % 900, //25.0f + rand() % 901, position x
-				(i % 2 == 0 ? 550.0f : 600.0f), //(i % 2 == 0 ? 25.0f : 600.0f) + (rand() % 76), position y
-					61.0f, 66.0f }); //source s and destination d
+	//		Obstacle* temp = new Obstacle({ 539, 0 , 61, 66 },
+	//			{ 1000.0f + rand() % 900, //25.0f + rand() % 901, position x
+	//			(i % 2 == 0 ? 550.0f : 600.0f), //(i % 2 == 0 ? 25.0f : 600.0f) + (rand() % 76), position y
+	//				61.0f, 66.0f }); //source s and destination d
 
-			/*temp->SetColMods((rand() % 129), (rand() % 129), (rand() % 129));*/
-			field->push_back(temp);
-		}
-	
-	}
+	//		/*temp->SetColMods((rand() % 129), (rand() % 129), (rand() % 129));*/
+	//		field->push_back(temp);
+	//	}
+	//
+	//}
 
 	for (auto const& i : m_objects)
 	{
@@ -185,6 +185,8 @@ void GameState::Update()
 	{
 		m_bg[i]->Update();
 	}
+	m_pObstacle->Update();
+}
 	// check collision
 	/*PlatformPlayer* pObj = dynamic_cast<PlatformPlayer*>(GetGo("player"));
 	SDL_FRect* pBound = pObj->GetDst();
@@ -227,7 +229,7 @@ void GameState::Update()
 	/*}*/
 
 
-}
+
 
 void GameState::Render()
 {
@@ -247,6 +249,24 @@ void GameState::Render()
 		m_label->SetText(newTime.c_str());
 	}
 	m_label->Render();
+	m_pObstacle->Render();
+
+	if (EVMA::KeyHeld(SDL_SCANCODE_L))
+	{
+		SDL_FRect pPlayer;
+		SDL_FRect pObst;
+		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 255, 255, 255);
+		for (auto const& i : m_objects)
+		{
+			if (i.first == "player")
+			{
+				pPlayer = { i.second->GetDst()->x,i.second->GetDst()->y, i.second->GetDst()->w, i.second->GetDst()->h };
+			}
+		}
+		pObst = { m_pObstacle->GetDst()->x,m_pObstacle->GetDst()->y,m_pObstacle->GetDst()->w,m_pObstacle->GetDst()->h };
+		SDL_RenderDrawRectF(Engine::Instance().GetRenderer(), &pObst);
+		SDL_RenderDrawRectF(Engine::Instance().GetRenderer(), &pPlayer);
+	}
 	// Draw anew.
 	SDL_RenderPresent(Engine::Instance().GetRenderer());
 }
@@ -270,6 +290,7 @@ void GameState::Exit()
 	}
 	m_objects.clear();
 	m_objects.shrink_to_fit();
+
 }
 
 void GameState::Resume(){ m_timer.Resume(); }

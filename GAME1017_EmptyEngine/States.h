@@ -8,6 +8,7 @@
 #include "FontManager.h"
 #include "Timer.h"
 #include "Background.h"
+#include "Obstacles.h"
 
 class State // This is the abstract base class for all states
 {
@@ -27,7 +28,7 @@ protected: // Private but inherited
 	//Background vector
 	vector<Background*> m_bg;
 
-
+	GameObject* m_pObstacle;
 	Label* m_label;
 	Timer m_timer;
 };

@@ -32,18 +32,18 @@ private:
 	/*Uint8 m_rMod, m_gMod, m_bMod;*/
 };
 
-class ObstacleField : public GameObject
-{ // Manager class for the individual asteroids.
-public:
-	ObstacleField(unsigned int sz = 6);
-	~ObstacleField();
-	void Update();
-	void Render();
-	vector<Obstacle*>& GetObstacle() { return m_obstacle; }
-	const unsigned int GetSize() { return m_size; }
-
-private:
-	vector<Obstacle*> m_obstacle;
-	int m_size;
-};
+//class ObstacleField : public GameObject
+//{ // Manager class for the individual asteroids.
+//public:
+//	ObstacleField(unsigned int sz = 6);
+//	~ObstacleField();
+//	void Update();
+//	void Render();
+//	vector<Obstacle*>& GetObstacle() { return m_obstacle; }
+//	const unsigned int GetSize() { return m_size; }
+//
+//private:
+//	vector<Obstacle*> m_obstacle;
+//	int m_size;
+//};
 #endif

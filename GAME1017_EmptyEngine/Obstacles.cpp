@@ -33,42 +33,42 @@ void Obstacle::Render()
 //	m_rMod = r; m_gMod = g; m_bMod = b;
 //}
 
-ObstacleField::ObstacleField(unsigned int sz) :GameObject({ 0,0,0,0 }), m_size(sz)
-{
-	for (int i = 0; i < m_size; i++)
-	{
-		m_obstacle.push_back(new Obstacle({ 539, 0, 61, 66 },
-			{ 1000.0f + rand() % 900, 
-			(i % 2 == 0 ? 550.0f : 600.0f) ,//(i % 2 == 0 ? 25.0f : 600.0f) + (rand() % 76),
-			61.0f, 66.0f }));
-
-		/*m_obstacle.back()->SetColMods((rand() % 129), (rand() % 129), (rand() % 129));*/
-
-	}
-	m_obstacle.shrink_to_fit();
-}
-
-ObstacleField::~ObstacleField()
-{
-	for (auto a : m_obstacle)
-	{
-		delete a;
-		a = nullptr; // ;)
-	}
-	m_obstacle.clear();
-}
-
-void ObstacleField::Update()
-{
-	for (const auto a : m_obstacle)
-		a->Update();
-
-}
-
-void ObstacleField::Render()
-{
-	for (const auto a : m_obstacle)
-		a->Render();
-}
+//ObstacleField::ObstacleField(unsigned int sz) :GameObject({ 0,0,0,0 }), m_size(sz)
+//{
+//	for (int i = 0; i < m_size; i++)
+//	{
+//		m_obstacle.push_back(new Obstacle({ 539, 0, 61, 66 },
+//			{ 1000.0f + rand() % 900, 
+//			(i % 2 == 0 ? 550.0f : 600.0f) ,//(i % 2 == 0 ? 25.0f : 600.0f) + (rand() % 76),
+//			61.0f, 66.0f }));
+//
+//		/*m_obstacle.back()->SetColMods((rand() % 129), (rand() % 129), (rand() % 129));*/
+//
+//	}
+//	m_obstacle.shrink_to_fit();
+//}
+//
+//ObstacleField::~ObstacleField()
+//{
+//	for (auto a : m_obstacle)
+//	{
+//		delete a;
+//		a = nullptr; // ;)
+//	}
+//	m_obstacle.clear();
+//}
+//
+//void ObstacleField::Update()
+//{
+//	for (const auto a : m_obstacle)
+//		a->Update();
+//
+//}
+//
+//void ObstacleField::Render()
+//{
+//	for (const auto a : m_obstacle)
+//		a->Render();
+//}
 
 
