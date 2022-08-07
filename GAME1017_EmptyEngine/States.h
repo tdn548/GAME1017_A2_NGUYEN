@@ -27,7 +27,7 @@ protected: // Private but inherited
 	vector<std::pair<std::string, GameObject*>> m_objects; // hold all the gameobjects in the state
 	//Background vector
 	vector<Background*> m_bg;
-
+	vector<Obstacle*> m_obstacle;
 	GameObject* m_pObstacle;
 	Label* m_label;
 	Timer m_timer;

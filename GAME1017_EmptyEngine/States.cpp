@@ -103,7 +103,7 @@ void GameState::Enter() // Used for initialization.
 	TEMA::Load("Img/Tiles.png", "tiles");
 	TEMA::Load("Img/Player.png", "player");
 	FOMA::Load("Img/ltype.TTF", "Label", 24);
-	TEMA::Load("Img/Sprites.png", "sprites");
+	TEMA::Load("Img/Vehicles.png", "vehicles");
 	TEMA::Load("Img/bg.png", "background");
 
 	SOMA::Load("Img/sound/SFX_Jump.wav", "jump", SOUND_SFX);
@@ -120,7 +120,7 @@ void GameState::Enter() // Used for initialization.
 	m_timer.Start();
 	/*m_objects.push_back(pair<string, GameObject*>("astf",
 		new ObstacleField(2)));*/
-	m_pObstacle = new Obstacle({ 539, 0, 61, 66 }, { WIDTH + 61 ,600,61,66 });
+	m_obstacle.push_back(new Obstacle({ 0, 60, 96, 60 }, { WIDTH + 96 ,500,230,200 }));
 	
 
 	//Loading backgrounds into vector
@@ -150,7 +150,14 @@ void GameState::Update()
 		return;
 	}
 
-
+	for (auto &i : m_obstacle)
+	{
+		if (i->GetDst()->x <= WIDTH/2 && !i->getPassedMid())
+		{
+			i->setPassedMid(true);
+			m_obstacle.push_back(new Obstacle({ 163, 0, 96, 60 }, { WIDTH + 96 ,600,130,100 }));
+		}
+	}
 	//vector<Obstacle*>* field = &static_cast<ObstacleField*>(GetGo("astf"))->GetObstacle();
 	//for (int i = 0; i <= field->size(); i++)
 	//{
@@ -185,7 +192,12 @@ void GameState::Update()
 	{
 		m_bg[i]->Update();
 	}
-	m_pObstacle->Update();
+
+	for (auto &i : m_obstacle)
+	{
+		i->Update();
+	}
+	
 }
 	// check collision
 	/*PlatformPlayer* pObj = dynamic_cast<PlatformPlayer*>(GetGo("player"));
@@ -249,7 +261,10 @@ void GameState::Render()
 		m_label->SetText(newTime.c_str());
 	}
 	m_label->Render();
-	m_pObstacle->Render();
+	for (auto& i : m_obstacle)
+	{
+		i->Render();
+	}
 
 	if (EVMA::KeyHeld(SDL_SCANCODE_L))
 	{
@@ -263,10 +278,17 @@ void GameState::Render()
 				pPlayer = { i.second->GetDst()->x,i.second->GetDst()->y, i.second->GetDst()->w, i.second->GetDst()->h };
 			}
 		}
-		pObst = { m_pObstacle->GetDst()->x,m_pObstacle->GetDst()->y,m_pObstacle->GetDst()->w,m_pObstacle->GetDst()->h };
-		SDL_RenderDrawRectF(Engine::Instance().GetRenderer(), &pObst);
+
+		for (auto& i : m_obstacle)
+		{
+			pObst = { i->GetDst()->x,i->GetDst()->y,i->GetDst()->w,i->GetDst()->h };
+			SDL_RenderDrawRectF(Engine::Instance().GetRenderer(), &pObst);
+		}
+		
+		
 		SDL_RenderDrawRectF(Engine::Instance().GetRenderer(), &pPlayer);
 	}
+
 	// Draw anew.
 	SDL_RenderPresent(Engine::Instance().GetRenderer());
 }

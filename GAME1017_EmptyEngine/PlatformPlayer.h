@@ -5,7 +5,7 @@
 #include "GameObject.h"
 // Define gravity and jump force
 #define GRAVITY 2.0
-#define JUMPFORCE 25.0
+#define JUMPFORCE 30.0
 // Create enum for player animation state
 enum PlayerState {STATE_IDLING, STATE_RUNNING, STATE_JUMPING,STATE_ROLLING};
 class PlatformPlayer : public AnimatedSpriteObject

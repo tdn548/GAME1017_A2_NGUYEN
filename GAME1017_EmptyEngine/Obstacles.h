@@ -20,6 +20,8 @@ public:
 	Uint8 GetBlue() { return m_bMod; };*/
 	double& GetDx() { return m_dx; }
 	double& GetDy() { return m_dy; }
+	bool getPassedMid() { return passedMid; }
+	void setPassedMid(bool passed);
 
 	/*void SetColMods(Uint8 r, Uint8 g, Uint8 b);*/
 private:
@@ -27,6 +29,7 @@ private:
 	//SDL_FPoint m_center;
 	double m_angle,
 		m_dx, m_dy;
+	bool passedMid;
 		/*m_radius,
 		m_rotSpeed;*/
 	/*Uint8 m_rMod, m_gMod, m_bMod;*/
