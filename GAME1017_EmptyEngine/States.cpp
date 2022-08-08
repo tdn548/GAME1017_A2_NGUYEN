@@ -214,7 +214,7 @@ void GameState::Update()
 	
 	// check collision
 	PlatformPlayer* pObj = dynamic_cast<PlatformPlayer*>(GetGo("player"));
-	SDL_FRect* pHitbox = pObj->GetDst();
+	SDL_FRect pHitbox = { pObj->GetDst()->x + 30,pObj->GetDst()->y , pObj->GetDst()->w - 60, pObj->GetDst()->h };
 	SDL_FRect* pObsBox;
 	SDL_FRect pRollingBox = { (pObj->GetDst()->x) + 35 , (pObj->GetDst()->y) + 60, (pObj->GetDst()->w / 2), (pObj->GetDst()->h / 2) };
 
@@ -229,7 +229,7 @@ void GameState::Update()
 
 		if (pObj->GetState() != STATE_ROLLING)
 		{
-			if (COMA::AABBCheck(*pHitbox,*pObsBox))
+			if (COMA::AABBCheck(pHitbox,*pObsBox))
 			{
 				pObj->Dying(true);
 			}
@@ -320,7 +320,7 @@ void GameState::Render()
 		{
 			if (i.first == "player")
 			{
-				pPlayer = { i.second->GetDst()->x+35 ,i.second->GetDst()->y + 60, i.second->GetDst()->w/2, i.second->GetDst()->h/2 };
+				pPlayer = { i.second->GetDst()->x + 30,i.second->GetDst()->y , i.second->GetDst()->w - 60, i.second->GetDst()->h };
 			}
 		}
 
