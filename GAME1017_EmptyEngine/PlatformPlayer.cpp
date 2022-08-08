@@ -61,12 +61,14 @@ void PlatformPlayer::Update()
 			m_state = STATE_DEATH;
 			SetAnimation(8, 4, 9, 128);
 			timer = 44;
+			SOMA::PlaySound("explosion");
 		}
 		if (IsDying())
 		{
 			m_state = STATE_DEATH;
 			timer = 45;
 			SetAnimation(8, 4, 9, 128);
+			SOMA::PlaySound("explosion");
 
 		}
 		break;
@@ -123,7 +125,7 @@ void PlatformPlayer::Update()
 			m_state = STATE_DEATH;
 			timer = 45;
 			SetAnimation(8, 4, 9, 128);
-
+			SOMA::PlaySound("explosion");
 		}
 	case STATE_JUMPING:
 		// Move in mid-air.
@@ -155,7 +157,7 @@ void PlatformPlayer::Update()
 			m_state = STATE_DEATH;
 			timer = 45;
 			SetAnimation(8, 4, 9, 128);
-
+			SOMA::PlaySound("explosion");
 		}
 		break;
 	case STATE_ROLLING:
@@ -194,7 +196,7 @@ void PlatformPlayer::Update()
 			m_state = STATE_DEATH;
 			timer = 45;
 			SetAnimation(8, 4, 9, 128);
-
+			SOMA::PlaySound("explosion");
 		}
 		break;
 	case STATE_DEATH:

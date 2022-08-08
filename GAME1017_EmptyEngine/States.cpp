@@ -51,6 +51,11 @@ TitleState::TitleState(){}
 
 void TitleState::Enter()
 {
+	SOMA::Load("Img/Music/sci_fi_platformer02.mp3", "sci_fi", SOUND_MUSIC);
+	SOMA::SetMusicVolume(20);
+	SOMA::PlayMusic("sci_fi", -1, 2000);
+
+
 	//Add background
 
 	TEMA::Load("Img/bg-2.png", "bg");
@@ -86,6 +91,9 @@ void TitleState::Render()
 
 void TitleState::Exit()
 {
+	SOMA::StopMusic();
+	SOMA::Unload("sci_fi", SOUND_MUSIC);
+
 	TEMA::Unload("play");
 	TEMA::Unload("title");
 	TEMA::Unload("bg");
@@ -112,9 +120,10 @@ void GameState::Enter() // Used for initialization.
 
 	SOMA::Load("Img/sound/SFX_Jump.wav", "jump", SOUND_SFX);
 	SOMA::Load("Img/sound/Rolling.mp3", "roll", SOUND_SFX);
+	SOMA::Load("Img/sound/explosion.wav", "explosion", SOUND_SFX);
 	SOMA::Load("Img/Music/cyberpunk-street.mp3", "cyberpunk", SOUND_MUSIC);
-	SOMA::SetSoundVolume(16);
-	SOMA::SetMusicVolume(16);
+	SOMA::SetSoundVolume(20);
+	SOMA::SetMusicVolume(10);
 	SOMA::PlayMusic("cyberpunk", -1, 2000);
 
 	XMLDocument xmlDoc; // create the DOM
@@ -320,7 +329,6 @@ void GameState::Render()
 	}
 	m_label->Render();
 	//Highest Score render
-	//m_highestscore->SetText(newTime.)
 	m_highestscore->Render();
 
 	for (auto& i : m_obstacle)
@@ -383,9 +391,10 @@ void GameState::Exit()
 	FOMA::Quit();
 	SOMA::StopMusic();
 	SOMA::StopSound();
-	SOMA::Unload("wings", SOUND_MUSIC);
+	SOMA::Unload("cyberpunk", SOUND_MUSIC);
 	SOMA::Unload( "jump", SOUND_SFX);
 	SOMA::Unload("roll", SOUND_SFX);
+	SOMA::Unload("explosion", SOUND_SFX);
 
 	for (auto& i : m_objects)
 	{
@@ -473,6 +482,11 @@ EndState::EndState()
 
 void EndState::Enter()
 {
+	SOMA::Load("Img/Music/sci_fi_platformer02.mp3", "sci_fi", SOUND_MUSIC);
+	SOMA::SetMusicVolume(20);
+	SOMA::PlayMusic("sci_fi", -1, 2000);
+
+
 	TEMA::Load("Img/foreground.png", "end");
 	m_objects.push_back(pair<string, GameObject*>("end",
 		new Image({ 0, 0, 1920, 1200 }, { 0, 0, 1024, 768 }, "end")));
@@ -514,6 +528,8 @@ void EndState::Render()
 
 void EndState::Exit()
 {
+	SOMA::StopMusic();
+	SOMA::Unload("sci_fi", SOUND_MUSIC);
 	TEMA::Unload("end");
 	TEMA::Unload("menu");
 	TEMA::Unload("quit");
