@@ -422,11 +422,11 @@ void PauseState::Enter()
 {
 	TEMA::Load("img/Resume_Button.png", "resume");
 	m_objects.push_back(pair<string, GameObject*>("resume",
-		new ResumeButton({ 0, 0, 600, 200 }, { 510, 380, 200, 50 }, "resume")));
+		new ResumeButton({ 0, 0, 600, 200 }, { 400, 380, 200, 50 }, "resume")));
 
 	TEMA::Load("img/Exit_Button.png", "exit");
 	m_objects.push_back(pair<string, GameObject*>("exit",
-		new EndButton({ 0, 0, 600, 200 }, { 510, 480, 200, 50 }, "exit")));
+		new EndButton({ 0, 0, 600, 200 }, { 400, 480, 200, 50 }, "exit")));
 }
 
 void PauseState::Update()
