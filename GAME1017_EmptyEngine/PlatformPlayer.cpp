@@ -6,7 +6,7 @@
 #include <cmath>
 
 PlatformPlayer::PlatformPlayer(SDL_Rect s, SDL_FRect d) :AnimatedSpriteObject(s, d),
-m_state(STATE_JUMPING), m_isGrounded(false), m_isFacingLeft(false),
+m_state(STATE_JUMPING), m_isGrounded(false), m_isFacingLeft(false), m_isDying(false),
 m_maxVelX(9.0), m_maxVelY(JUMPFORCE), m_grav(GRAVITY), m_drag(0.85)
 {
 	m_accelX = m_accelY = m_velX = m_velY = 0.0;
@@ -62,6 +62,13 @@ void PlatformPlayer::Update()
 			SetAnimation(8, 4, 9, 128);
 			timer = 44;
 		}
+		if (IsDying())
+		{
+			m_state = STATE_DEATH;
+			timer = 45;
+			SetAnimation(8, 4, 9, 128);
+
+		}
 		break;
 	case STATE_RUNNING:
 		// Move on ground or air 
@@ -111,6 +118,13 @@ void PlatformPlayer::Update()
 			SOMA::PlaySound("roll", -1, 2);
 		}
 		break;
+		if (IsDying())
+		{
+			m_state = STATE_DEATH;
+			timer = 45;
+			SetAnimation(8, 4, 9, 128);
+
+		}
 	case STATE_JUMPING:
 		// Move in mid-air.
 		if (EVMA::KeyHeld(SDL_SCANCODE_A))
@@ -135,6 +149,13 @@ void PlatformPlayer::Update()
 
 			// SetAnimation(?,?,?,?);
 			SetAnimation(2, 8, 9, 0);
+		}
+		if (IsDying())
+		{
+			m_state = STATE_DEATH;
+			timer = 45;
+			SetAnimation(8, 4, 9, 128);
+
 		}
 		break;
 	case STATE_ROLLING:
@@ -167,6 +188,13 @@ void PlatformPlayer::Update()
 				m_state = STATE_RUNNING;
 				SetAnimation(3, 0, 8, 0);
 			}
+		}
+		if (IsDying())
+		{
+			m_state = STATE_DEATH;
+			timer = 45;
+			SetAnimation(8, 4, 9, 128);
+
 		}
 		break;
 	case STATE_DEATH:
@@ -212,6 +240,7 @@ void PlatformPlayer::Update()
 		m_dst.y = HEIGHT - 200;
 		m_isGrounded = true;
 	}
+
 	 Animate();
 
 }
@@ -265,3 +294,23 @@ bool PlatformPlayer::IsGrounded() { return m_isGrounded; }
 double PlatformPlayer::GetVelX() { return m_velX; }
 
 double PlatformPlayer::GetVelY() { return m_velY; }
+
+PlayerState PlatformPlayer::GetState()
+{
+	return m_state;
+}
+
+bool PlatformPlayer::IsDying()
+{
+	return m_isDying;
+}
+
+void PlatformPlayer::SetState(PlayerState state)
+{
+	m_state = state;
+}
+
+void PlatformPlayer::Dying(bool dying)
+{
+	m_isDying = dying;
+}

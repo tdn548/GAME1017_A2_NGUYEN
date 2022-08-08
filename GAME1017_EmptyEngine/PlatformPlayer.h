@@ -27,11 +27,15 @@ public:
 	bool IsGrounded();
 	double GetVelX();
 	double GetVelY();
+	PlayerState GetState();
+	bool IsDying();
+	void SetState(PlayerState state);
+	void Dying(bool dying);
 
 	int timer = 0;
 
 private:
-	bool m_isGrounded, m_isFacingLeft;
+	bool m_isGrounded, m_isFacingLeft, m_isDying;
 	double m_accelX, m_accelY,
 		m_velX, m_velY,
 		m_maxVelX, m_maxVelY,

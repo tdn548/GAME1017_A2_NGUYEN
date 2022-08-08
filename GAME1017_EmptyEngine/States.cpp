@@ -120,7 +120,7 @@ void GameState::Enter() // Used for initialization.
 	m_timer.Start();
 	/*m_objects.push_back(pair<string, GameObject*>("astf",
 		new ObstacleField(2)));*/
-	m_obstacle.push_back(new Obstacle({ 0, 60, 96, 60 }, { WIDTH + 96 ,400,230,200 }));
+	m_obstacle.push_back(new Obstacle({ 163, 0, 96, 60 }, { WIDTH + 96 ,600,130,100 }));
 	
 
 	//Loading backgrounds into vector
@@ -212,8 +212,39 @@ void GameState::Update()
 		i->Update();
 	}
 	
-}
 	// check collision
+	PlatformPlayer* pObj = dynamic_cast<PlatformPlayer*>(GetGo("player"));
+	SDL_FRect* pHitbox = pObj->GetDst();
+	SDL_FRect* pObsBox;
+	SDL_FRect pRollingBox = { (pObj->GetDst()->x) + 35 , (pObj->GetDst()->y) + 60, (pObj->GetDst()->w / 2), (pObj->GetDst()->h / 2) };
+
+	/*if (pObj->GetState() == STATE_ROLLING)
+	{
+		*pHitbox = { (pObj->GetDst()->x) + 35 , (pObj->GetDst()->y) + 60, (pObj->GetDst()->w / 2), (pObj->GetDst()->h / 2) };
+	}*/
+
+	for (auto& i: m_obstacle)
+	{	
+		pObsBox = i->GetDst();
+
+		if (pObj->GetState() != STATE_ROLLING)
+		{
+			if (COMA::AABBCheck(*pHitbox,*pObsBox))
+			{
+				pObj->Dying(true);
+			}
+		}
+		else
+		{
+			if (COMA::AABBCheck(pRollingBox, *pObsBox))
+			{
+				pObj->Dying(true);
+			}
+		}
+		
+	}
+}
+	
 	/*PlatformPlayer* pObj = dynamic_cast<PlatformPlayer*>(GetGo("player"));
 	SDL_FRect* pBound = pObj->GetDst();
 	SDL_FRect* pLevelB;
@@ -289,7 +320,7 @@ void GameState::Render()
 		{
 			if (i.first == "player")
 			{
-				pPlayer = { i.second->GetDst()->x,i.second->GetDst()->y, i.second->GetDst()->w, i.second->GetDst()->h };
+				pPlayer = { i.second->GetDst()->x+35 ,i.second->GetDst()->y + 60, i.second->GetDst()->w/2, i.second->GetDst()->h/2 };
 			}
 		}
 
@@ -312,6 +343,7 @@ void GameState::Exit()
 	TEMA::Unload("tiles");
 	TEMA::Unload("sprites");
 	TEMA::Unload("background");
+	TEMA::Unload("vehicles");
 	FOMA::Quit();
 	SOMA::StopMusic();
 	SOMA::StopSound();
