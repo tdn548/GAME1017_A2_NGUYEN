@@ -85,6 +85,8 @@ void TitleState::Render()
 void TitleState::Exit()
 {
 	TEMA::Unload("play");
+	TEMA::Unload("title");
+	TEMA::Unload("bg");
 	for (auto& i : m_objects)
 	{
 		delete i.second;
@@ -117,9 +119,9 @@ void GameState::Enter() // Used for initialization.
 	m_objects.push_back(pair<string, GameObject* >("player",
 		new PlatformPlayer({ 0,0,125,130 }, {50,400,128,128 })));
 	m_label = new Label("Label", WIDTH/2 - 80, 20, "Time: 0");
+	m_highestscore = new Label("Label", WIDTH / 2 + 80, 20, "Highest Score: 0");
 	m_timer.Start();
-	/*m_objects.push_back(pair<string, GameObject*>("astf",
-		new ObstacleField(2)));*/
+
 	m_obstacle.push_back(new Obstacle({ 163, 0, 96, 60 }, { WIDTH + 96 ,600,130,100 }));
 	
 
@@ -172,27 +174,7 @@ void GameState::Update()
 			
 		}
 	}
-	//vector<Obstacle*>* field = &static_cast<ObstacleField*>(GetGo("astf"))->GetObstacle();
-	//for (int i = 0; i <= field->size(); i++)
-	//{
-	//	if (field->at(0) != nullptr && field->at(0)->GetDst()->x <= -field->at(0)->GetDst()->w)
-	//	{
-	//		delete field->at(0);
-	//		field->at(0) = nullptr;
-	//		field->erase(field->begin());
-	//		field->shrink_to_fit();
-
-	//		Obstacle* temp = new Obstacle({ 539, 0 , 61, 66 },
-	//			{ 1000.0f + rand() % 900, //25.0f + rand() % 901, position x
-	//			(i % 2 == 0 ? 550.0f : 600.0f), //(i % 2 == 0 ? 25.0f : 600.0f) + (rand() % 76), position y
-	//				61.0f, 66.0f }); //source s and destination d
-
-	//		/*temp->SetColMods((rand() % 129), (rand() % 129), (rand() % 129));*/
-	//		field->push_back(temp);
-	//	}
-	//
-	//}
-
+	
 	for (auto const& i : m_objects)
 	{
 		//i.first is string key
@@ -441,17 +423,21 @@ void EndState::Enter()
 	m_objects.push_back(pair<string, GameObject*>("end",
 		new Image({ 0, 0, 1920, 1200 }, { 0, 0, 1024, 768 }, "end")));
 
+	TEMA::Load("Img/go.png", "gameover");
+	m_objects.push_back(pair<string, GameObject*>("gameover",
+		new Image({ 0, 0, 250, 200 }, { 370, 200, 250, 200 }, "gameover")));
+
 	TEMA::Load("Img/credits-text.png", "credit");
 	m_objects.push_back(pair<string, GameObject*>("credit",
-		new Image({ 0, 0, 1920, 1200 }, { 250, 470, 500, 44 }, "credit")));
+		new Image({ 0, 0, 1920, 1200 }, { 250, 500, 500, 44 }, "credit")));
 
 	TEMA::Load("Img/menu2.png", "menu");
 	m_objects.push_back(pair<string, GameObject*>("menu",
-		new MenuButton({ 0, 0, 396, 200 }, { 412, 300, 200, 50 }, "menu")));
+		new MenuButton({ 0, 0, 396, 200 }, { 240, 420, 200, 50 }, "menu")));
 
 	TEMA::Load("Img/Quit_Button.png", "quit");
 	m_objects.push_back(pair<string, GameObject*>("quit",
-		new QuitButton({ 0, 0, 600, 200 }, { 412, 400, 200, 50 }, "quit")));
+		new QuitButton({ 0, 0, 600, 200 }, { 560, 420, 200, 50 }, "quit")));
 }
 
 void EndState::Update()
@@ -474,7 +460,11 @@ void EndState::Render()
 
 void EndState::Exit()
 {
-	TEMA::Unload("play");
+	TEMA::Unload("end");
+	TEMA::Unload("menu");
+	TEMA::Unload("quit");
+	TEMA::Unload("gameover");
+	TEMA::Unload("credit");
 	for (auto& i : m_objects)
 	{
 		delete i.second;

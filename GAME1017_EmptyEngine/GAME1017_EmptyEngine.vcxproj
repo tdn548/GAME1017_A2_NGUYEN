@@ -193,6 +193,8 @@
     <Image Include="Img\Exit_Button.png" />
     <Image Include="Img\far-buildings.png" />
     <Image Include="Img\foreground.png" />
+    <Image Include="Img\gameover.png" />
+    <Image Include="Img\go.png" />
     <Image Include="Img\Menu_Button.png" />
     <Image Include="Img\Player.png" />
     <Image Include="Img\Quit_Button.png" />

@@ -94,8 +94,8 @@ void PlatformPlayer::Update()
 
 			// SetAnimation(?,?,?,?);
 			// because the sprite does not have idle so I changed sprite max from 1 to 2 and frame to 24 to see the change in idle
-			SetAnimation(1, 0, 1);
-	
+			SetAnimation(3, 0, 8); //1.0.1)
+
 		}
 		// Transition to jump.
 		else if (EVMA::KeyPressed(SDL_SCANCODE_SPACE) && m_isGrounded)
@@ -162,7 +162,7 @@ void PlatformPlayer::Update()
 		if (EVMA::KeyReleased(SDL_SCANCODE_S))
 		{
 			m_state = STATE_IDLING;
-			SetAnimation(1, 0, 1);
+			SetAnimation(3, 0, 8);
 			SOMA::StopSound(2);
 		}
 		if (EVMA::KeyHeld(SDL_SCANCODE_A))
