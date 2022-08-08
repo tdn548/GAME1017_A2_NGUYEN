@@ -47,6 +47,7 @@ public:
 class GameState : public State
 {
 public:
+	int score;
 	GameState();
 	virtual void Enter();
 	virtual void Update();

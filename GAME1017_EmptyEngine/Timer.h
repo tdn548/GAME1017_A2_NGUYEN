@@ -23,6 +23,7 @@ public:
 	void Pause();
 
 	std::string GetTime();
+	int GetLastTime() { return m_elapsedTotal + m_elapsed; };
 	bool HasChanged();
 };
 

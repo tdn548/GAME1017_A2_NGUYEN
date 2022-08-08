@@ -9,9 +9,11 @@
 #include "Button3.h"
 #include "PlatformPlayer.h"
 
-
+#include "tinyxml2.h"
+#include <fstream>
 #include <iostream>
 using namespace std;
+using namespace tinyxml2;
 
 void State::Render()
 {
@@ -115,11 +117,40 @@ void GameState::Enter() // Used for initialization.
 	SOMA::SetMusicVolume(16);
 	SOMA::PlayMusic("cyberpunk", -1, 2000);
 
+	XMLDocument xmlDoc; // create the DOM
+
+	std::ifstream fileInput("score.xml"); // check whether xml file existing or not
+
+	if (fileInput.fail())
+	{
+		std::cout << "Failed to open this file!" << std::endl;
+		XMLNode* pRoot = xmlDoc.NewElement("Root");
+		xmlDoc.InsertEndChild(pRoot);
+		xmlDoc.SaveFile("score.xml");
+		xmlDoc.LoadFile("score.xml");
+	}
+	else
+	{
+		xmlDoc.LoadFile("score.xml");
+		XMLNode* pRoot = xmlDoc.FirstChildElement();
+
+		XMLElement* pElement = pRoot->FirstChildElement();
+		while (pElement != nullptr) 	// Iterate through the Turret elements in the file and push_back new Turrets into the m_turrets vector.
+		{
+			score = pElement->IntAttribute("score");
+			cout << score;
+			pElement = pElement->NextSiblingElement();
+		}
+	}
+	string str_score = to_string(score);
+	string newTime2 = "Highest Score: " + str_score;
+	//m_highestscore->SetText(str_score.c_str());
 
 	m_objects.push_back(pair<string, GameObject* >("player",
 		new PlatformPlayer({ 0,0,125,130 }, {50,400,128,128 })));
-	m_label = new Label("Label", WIDTH/2 - 80, 20, "Time: 0");
-	m_highestscore = new Label("Label", WIDTH / 2 + 80, 20, "Highest Score: 0");
+	m_label = new Label("Label", WIDTH/2 - 300, 40, "Time: 0");
+	m_highestscore = new Label("Label", WIDTH / 2 + 80, 40, newTime2.c_str());
+
 	m_timer.Start();
 
 	m_obstacle.push_back(new Obstacle({ 163, 0, 96, 60 }, { WIDTH + 96 ,600,130,100 }));
@@ -288,6 +319,10 @@ void GameState::Render()
 		m_label->SetText(newTime.c_str());
 	}
 	m_label->Render();
+	//Highest Score render
+	//m_highestscore->SetText(newTime.)
+	m_highestscore->Render();
+
 	for (auto& i : m_obstacle)
 	{
 		i->Render();
@@ -322,6 +357,25 @@ void GameState::Render()
 
 void GameState::Exit()
 {
+	XMLDocument xmlDoc; // create the DOM
+	XMLNode* pRoot = xmlDoc.NewElement("Root");
+	xmlDoc.InsertEndChild(pRoot);
+
+	if (m_timer.GetLastTime() > score)
+	{
+		XMLElement* pElement = xmlDoc.NewElement("timer");
+		pElement->SetAttribute("score", m_timer.GetLastTime());
+		pRoot->InsertEndChild(pElement);
+	}
+	else
+	{
+		XMLElement* pElement = xmlDoc.NewElement("timer");
+		pElement->SetAttribute("score", score);
+		pRoot->InsertEndChild(pElement);
+	}
+	// Make sure to save to the XML file.
+	xmlDoc.SaveFile("score.xml");
+
 	TEMA::Unload("tiles");
 	TEMA::Unload("sprites");
 	TEMA::Unload("background");
