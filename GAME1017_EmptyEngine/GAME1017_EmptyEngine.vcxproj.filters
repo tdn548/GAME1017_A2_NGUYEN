@@ -209,6 +209,9 @@
     <Image Include="Img\go.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Img\resume2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Dat\Level1.txt">

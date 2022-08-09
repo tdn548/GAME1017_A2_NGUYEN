@@ -201,6 +201,7 @@
     <Image Include="Img\Player.png" />
     <Image Include="Img\Quit_Button.png" />
     <Image Include="Img\resume.png" />
+    <Image Include="Img\resume2.png" />
     <Image Include="Img\Resume_Button.png" />
     <Image Include="Img\Sprites.png" />
     <Image Include="Img\Tiles.png" />

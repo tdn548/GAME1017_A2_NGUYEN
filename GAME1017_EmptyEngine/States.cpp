@@ -66,9 +66,9 @@ void TitleState::Enter()
 	m_objects.push_back(pair<string, GameObject*>("title",
 		new Image({ 0, 0, 1920, 1200 }, { 250, 300, 501,159 }, "title")));
 
-	TEMA::Load("Img/button.png", "play");
+	TEMA::Load("Img/play2.png", "play");
 	m_objects.push_back(pair<string, GameObject*>("play",
-		new PlayButton({ 0, 0, 400, 100 }, { 412,500, 200, 50 }, "play")));
+		new PlayButton({ 0, 0, 396, 100 }, { 412,500, 200, 50 }, "play")));
 }
 
 void TitleState::Update()
@@ -385,7 +385,6 @@ void GameState::Exit()
 	xmlDoc.SaveFile("score.xml");
 
 	TEMA::Unload("tiles");
-	TEMA::Unload("sprites");
 	TEMA::Unload("background");
 	TEMA::Unload("vehicles");
 	FOMA::Quit();
@@ -420,13 +419,14 @@ PauseState::PauseState() {}
 
 void PauseState::Enter()
 {
-	TEMA::Load("img/Resume_Button.png", "resume");
+	TEMA::Load("img/resume2.png", "resume");
 	m_objects.push_back(pair<string, GameObject*>("resume",
-		new ResumeButton({ 0, 0, 600, 200 }, { 400, 380, 200, 50 }, "resume")));
+		new ResumeButton({ 0, 0, 396, 200 }, { 400, 380, 200, 50 }, "resume")));
+	
 
-	TEMA::Load("img/Exit_Button.png", "exit");
+	TEMA::Load("img/exit2.png", "exit");
 	m_objects.push_back(pair<string, GameObject*>("exit",
-		new EndButton({ 0, 0, 600, 200 }, { 400, 480, 200, 50 }, "exit")));
+		new EndButton({ 0, 0, 396, 200 }, { 400, 480, 200, 50 }, "exit")));
 }
 
 void PauseState::Update()
@@ -503,9 +503,9 @@ void EndState::Enter()
 	m_objects.push_back(pair<string, GameObject*>("menu",
 		new MenuButton({ 0, 0, 396, 200 }, { 240, 420, 200, 50 }, "menu")));
 
-	TEMA::Load("Img/Quit_Button.png", "quit");
+	TEMA::Load("Img/quit2.png", "quit");
 	m_objects.push_back(pair<string, GameObject*>("quit",
-		new QuitButton({ 0, 0, 600, 200 }, { 560, 420, 200, 50 }, "quit")));
+		new QuitButton({ 0, 0,396, 200 }, { 560, 420, 200, 50 }, "quit")));
 }
 
 void EndState::Update()
