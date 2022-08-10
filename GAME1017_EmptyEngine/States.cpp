@@ -433,8 +433,12 @@ void PauseState::Update()
 {
 	for (auto const& i : m_objects)
 	{
-		i.second->Update();
-		if (STMA::StateChanging()) return;
+		if (i.first == "resume" || i.first == "exit")
+		{
+			i.second->Update();
+			if (STMA::StateChanging()) return;
+		}
+		
 	}
 
 	if (EVMA::KeyPressed(SDL_SCANCODE_R))
