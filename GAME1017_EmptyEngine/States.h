@@ -30,6 +30,7 @@ protected: // Private but inherited
 	vector<Obstacle*> m_obstacle;
 	GameObject* m_pObstacle;
 	Label* m_label;
+	Label* m_highestscore;
 	Timer m_timer;
 };
 
@@ -46,6 +47,7 @@ public:
 class GameState : public State
 {
 public:
+	int score;
 	GameState();
 	virtual void Enter();
 	virtual void Update();

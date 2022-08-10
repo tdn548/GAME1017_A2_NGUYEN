@@ -9,9 +9,11 @@
 #include "Button3.h"
 #include "PlatformPlayer.h"
 
-
+#include "tinyxml2.h"
+#include <fstream>
 #include <iostream>
 using namespace std;
+using namespace tinyxml2;
 
 void State::Render()
 {
@@ -49,6 +51,11 @@ TitleState::TitleState(){}
 
 void TitleState::Enter()
 {
+	SOMA::Load("Img/Music/sci_fi_platformer02.mp3", "sci_fi", SOUND_MUSIC);
+	SOMA::SetMusicVolume(20);
+	SOMA::PlayMusic("sci_fi", -1, 2000);
+
+
 	//Add background
 
 	TEMA::Load("Img/bg-2.png", "bg");
@@ -59,9 +66,9 @@ void TitleState::Enter()
 	m_objects.push_back(pair<string, GameObject*>("title",
 		new Image({ 0, 0, 1920, 1200 }, { 250, 300, 501,159 }, "title")));
 
-	TEMA::Load("Img/button.png", "play");
+	TEMA::Load("Img/play2.png", "play");
 	m_objects.push_back(pair<string, GameObject*>("play",
-		new PlayButton({ 0, 0, 400, 100 }, { 412,500, 200, 50 }, "play")));
+		new PlayButton({ 0, 0, 396, 100 }, { 412,500, 200, 50 }, "play")));
 }
 
 void TitleState::Update()
@@ -84,7 +91,12 @@ void TitleState::Render()
 
 void TitleState::Exit()
 {
+	SOMA::StopMusic();
+	SOMA::Unload("sci_fi", SOUND_MUSIC);
+
 	TEMA::Unload("play");
+	TEMA::Unload("title");
+	TEMA::Unload("bg");
 	for (auto& i : m_objects)
 	{
 		delete i.second;
@@ -108,18 +120,48 @@ void GameState::Enter() // Used for initialization.
 
 	SOMA::Load("Img/sound/SFX_Jump.wav", "jump", SOUND_SFX);
 	SOMA::Load("Img/sound/Rolling.mp3", "roll", SOUND_SFX);
+	SOMA::Load("Img/sound/explosion.wav", "explosion", SOUND_SFX);
 	SOMA::Load("Img/Music/cyberpunk-street.mp3", "cyberpunk", SOUND_MUSIC);
-	SOMA::SetSoundVolume(16);
-	SOMA::SetMusicVolume(16);
+	SOMA::SetSoundVolume(20);
+	SOMA::SetMusicVolume(10);
 	SOMA::PlayMusic("cyberpunk", -1, 2000);
 
+	XMLDocument xmlDoc; // create the DOM
+
+	std::ifstream fileInput("score.xml"); // check whether xml file existing or not
+
+	if (fileInput.fail())
+	{
+		std::cout << "Failed to open this file!" << std::endl;
+		XMLNode* pRoot = xmlDoc.NewElement("Root");
+		xmlDoc.InsertEndChild(pRoot);
+		xmlDoc.SaveFile("score.xml");
+		xmlDoc.LoadFile("score.xml");
+	}
+	else
+	{
+		xmlDoc.LoadFile("score.xml");
+		XMLNode* pRoot = xmlDoc.FirstChildElement();
+
+		XMLElement* pElement = pRoot->FirstChildElement();
+		while (pElement != nullptr) 	// Iterate through the Turret elements in the file and push_back new Turrets into the m_turrets vector.
+		{
+			score = pElement->IntAttribute("score");
+			cout << score;
+			pElement = pElement->NextSiblingElement();
+		}
+	}
+	string str_score = to_string(score);
+	string newTime2 = "Highest Score: " + str_score;
+	//m_highestscore->SetText(str_score.c_str());
 
 	m_objects.push_back(pair<string, GameObject* >("player",
 		new PlatformPlayer({ 0,0,125,130 }, {50,400,128,128 })));
-	m_label = new Label("Label", WIDTH/2 - 80, 20, "Time: 0");
+	m_label = new Label("Label", WIDTH/2 - 300, 40, "Time: 0");
+	m_highestscore = new Label("Label", WIDTH / 2 + 80, 40, newTime2.c_str());
+
 	m_timer.Start();
-	/*m_objects.push_back(pair<string, GameObject*>("astf",
-		new ObstacleField(2)));*/
+
 	m_obstacle.push_back(new Obstacle({ 163, 0, 96, 60 }, { WIDTH + 96 ,600,130,100 }));
 	
 
@@ -172,27 +214,7 @@ void GameState::Update()
 			
 		}
 	}
-	//vector<Obstacle*>* field = &static_cast<ObstacleField*>(GetGo("astf"))->GetObstacle();
-	//for (int i = 0; i <= field->size(); i++)
-	//{
-	//	if (field->at(0) != nullptr && field->at(0)->GetDst()->x <= -field->at(0)->GetDst()->w)
-	//	{
-	//		delete field->at(0);
-	//		field->at(0) = nullptr;
-	//		field->erase(field->begin());
-	//		field->shrink_to_fit();
-
-	//		Obstacle* temp = new Obstacle({ 539, 0 , 61, 66 },
-	//			{ 1000.0f + rand() % 900, //25.0f + rand() % 901, position x
-	//			(i % 2 == 0 ? 550.0f : 600.0f), //(i % 2 == 0 ? 25.0f : 600.0f) + (rand() % 76), position y
-	//				61.0f, 66.0f }); //source s and destination d
-
-	//		/*temp->SetColMods((rand() % 129), (rand() % 129), (rand() % 129));*/
-	//		field->push_back(temp);
-	//	}
-	//
-	//}
-
+	
 	for (auto const& i : m_objects)
 	{
 		//i.first is string key
@@ -306,6 +328,9 @@ void GameState::Render()
 		m_label->SetText(newTime.c_str());
 	}
 	m_label->Render();
+	//Highest Score render
+	m_highestscore->Render();
+
 	for (auto& i : m_obstacle)
 	{
 		i->Render();
@@ -340,16 +365,35 @@ void GameState::Render()
 
 void GameState::Exit()
 {
+	XMLDocument xmlDoc; // create the DOM
+	XMLNode* pRoot = xmlDoc.NewElement("Root");
+	xmlDoc.InsertEndChild(pRoot);
+
+	if (m_timer.GetLastTime() > score)
+	{
+		XMLElement* pElement = xmlDoc.NewElement("timer");
+		pElement->SetAttribute("score", m_timer.GetLastTime());
+		pRoot->InsertEndChild(pElement);
+	}
+	else
+	{
+		XMLElement* pElement = xmlDoc.NewElement("timer");
+		pElement->SetAttribute("score", score);
+		pRoot->InsertEndChild(pElement);
+	}
+	// Make sure to save to the XML file.
+	xmlDoc.SaveFile("score.xml");
+
 	TEMA::Unload("tiles");
-	TEMA::Unload("sprites");
 	TEMA::Unload("background");
 	TEMA::Unload("vehicles");
 	FOMA::Quit();
 	SOMA::StopMusic();
 	SOMA::StopSound();
-	SOMA::Unload("wings", SOUND_MUSIC);
+	SOMA::Unload("cyberpunk", SOUND_MUSIC);
 	SOMA::Unload( "jump", SOUND_SFX);
 	SOMA::Unload("roll", SOUND_SFX);
+	SOMA::Unload("explosion", SOUND_SFX);
 
 	for (auto& i : m_objects)
 	{
@@ -375,13 +419,14 @@ PauseState::PauseState() {}
 
 void PauseState::Enter()
 {
-	TEMA::Load("img/Resume_Button.png", "resume");
+	TEMA::Load("img/resume2.png", "resume");
 	m_objects.push_back(pair<string, GameObject*>("resume",
-		new ResumeButton({ 0, 0, 600, 200 }, { 510, 380, 200, 50 }, "resume")));
+		new ResumeButton({ 0, 0, 396, 200 }, { 400, 380, 200, 50 }, "resume")));
+	
 
-	TEMA::Load("img/Exit_Button.png", "exit");
+	TEMA::Load("img/exit2.png", "exit");
 	m_objects.push_back(pair<string, GameObject*>("exit",
-		new EndButton({ 0, 0, 600, 200 }, { 510, 480, 200, 50 }, "exit")));
+		new EndButton({ 0, 0, 396, 200 }, { 400, 480, 200, 50 }, "exit")));
 }
 
 void PauseState::Update()
@@ -437,21 +482,30 @@ EndState::EndState()
 
 void EndState::Enter()
 {
+	SOMA::Load("Img/Music/sci_fi_platformer02.mp3", "sci_fi", SOUND_MUSIC);
+	SOMA::SetMusicVolume(20);
+	SOMA::PlayMusic("sci_fi", -1, 2000);
+
+
 	TEMA::Load("Img/foreground.png", "end");
 	m_objects.push_back(pair<string, GameObject*>("end",
 		new Image({ 0, 0, 1920, 1200 }, { 0, 0, 1024, 768 }, "end")));
 
+	TEMA::Load("Img/go.png", "gameover");
+	m_objects.push_back(pair<string, GameObject*>("gameover",
+		new Image({ 0, 0, 250, 200 }, { 370, 200, 250, 200 }, "gameover")));
+
 	TEMA::Load("Img/credits-text.png", "credit");
 	m_objects.push_back(pair<string, GameObject*>("credit",
-		new Image({ 0, 0, 1920, 1200 }, { 250, 470, 500, 44 }, "credit")));
+		new Image({ 0, 0, 1920, 1200 }, { 250, 500, 500, 44 }, "credit")));
 
 	TEMA::Load("Img/menu2.png", "menu");
 	m_objects.push_back(pair<string, GameObject*>("menu",
-		new MenuButton({ 0, 0, 396, 200 }, { 412, 300, 200, 50 }, "menu")));
+		new MenuButton({ 0, 0, 396, 200 }, { 240, 420, 200, 50 }, "menu")));
 
-	TEMA::Load("Img/Quit_Button.png", "quit");
+	TEMA::Load("Img/quit2.png", "quit");
 	m_objects.push_back(pair<string, GameObject*>("quit",
-		new QuitButton({ 0, 0, 600, 200 }, { 412, 400, 200, 50 }, "quit")));
+		new QuitButton({ 0, 0,396, 200 }, { 560, 420, 200, 50 }, "quit")));
 }
 
 void EndState::Update()
@@ -474,7 +528,13 @@ void EndState::Render()
 
 void EndState::Exit()
 {
-	TEMA::Unload("play");
+	SOMA::StopMusic();
+	SOMA::Unload("sci_fi", SOUND_MUSIC);
+	TEMA::Unload("end");
+	TEMA::Unload("menu");
+	TEMA::Unload("quit");
+	TEMA::Unload("gameover");
+	TEMA::Unload("credit");
 	for (auto& i : m_objects)
 	{
 		delete i.second;

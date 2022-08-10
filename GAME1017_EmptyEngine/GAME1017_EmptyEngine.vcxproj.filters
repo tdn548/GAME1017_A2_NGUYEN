@@ -67,6 +67,9 @@
     <ClCompile Include="Background.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="tinyxml2.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -116,6 +119,9 @@
     </ClInclude>
     <ClInclude Include="Background.h">
       <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml2.h">
+      <Filter>States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -195,6 +201,15 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Img\Sprites.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Img\gameover.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Img\go.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Img\resume2.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
