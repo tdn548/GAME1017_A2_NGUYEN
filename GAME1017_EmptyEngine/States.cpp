@@ -147,12 +147,12 @@ void GameState::Enter() // Used for initialization.
 		while (pElement != nullptr) 	// Iterate through the Turret elements in the file and push_back new Turrets into the m_turrets vector.
 		{
 			score = pElement->IntAttribute("score");
-			cout << score;
 			pElement = pElement->NextSiblingElement();
 		}
 	}
 	string str_score = to_string(score);
 	string newTime2 = "Highest Score: " + str_score;
+
 	//m_highestscore->SetText(str_score.c_str());
 
 	m_objects.push_back(pair<string, GameObject* >("player",
@@ -365,20 +365,22 @@ void GameState::Render()
 
 void GameState::Exit()
 {
+	int die = m_timer.GetLastTime();
 	XMLDocument xmlDoc; // create the DOM
 	XMLNode* pRoot = xmlDoc.NewElement("Root");
 	xmlDoc.InsertEndChild(pRoot);
-
 	if (m_timer.GetLastTime() > score)
 	{
 		XMLElement* pElement = xmlDoc.NewElement("timer");
 		pElement->SetAttribute("score", m_timer.GetLastTime());
+		pElement->SetAttribute("die", m_timer.GetLastTime());
 		pRoot->InsertEndChild(pElement);
 	}
 	else
 	{
 		XMLElement* pElement = xmlDoc.NewElement("timer");
 		pElement->SetAttribute("score", score);
+		pElement->SetAttribute("die", m_timer.GetLastTime());
 		pRoot->InsertEndChild(pElement);
 	}
 	// Make sure to save to the XML file.
@@ -486,9 +488,29 @@ EndState::EndState()
 
 void EndState::Enter()
 {
+	
 	SOMA::Load("Img/Music/sci_fi_platformer02.mp3", "sci_fi", SOUND_MUSIC);
 	SOMA::SetMusicVolume(20);
 	SOMA::PlayMusic("sci_fi", -1, 2000);
+
+	FOMA::Load("Img/ltype.TTF", "Label", 24);
+
+	XMLDocument xmlDoc; // create the DOM
+
+	std::ifstream fileInput("score.xml"); // check whether xml file existing or not
+
+		xmlDoc.LoadFile("score.xml");
+		XMLNode* pRoot = xmlDoc.FirstChildElement();
+
+		XMLElement* pElement = pRoot->FirstChildElement();
+		while (pElement != nullptr) 	// Iterate through the Turret elements in the file and push_back new Turrets into the m_turrets vector.
+		{
+			die = pElement->IntAttribute("die");
+			pElement = pElement->NextSiblingElement();
+		}
+
+	string die_label = "You Died ! Your score is: " + to_string(die);;
+	m_DieScore = new Label("Label", WIDTH /2 - 170, 170, die_label.c_str());
 
 
 	TEMA::Load("Img/foreground.png", "end");
@@ -525,8 +547,10 @@ void EndState::Render()
 {
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 64, 0, 16, 255);
 	SDL_RenderClear(Engine::Instance().GetRenderer());
+	
 	for (auto const& i : m_objects)
 		i.second->Render();
+	m_DieScore->Render();
 	State::Render();
 }
 

@@ -5,6 +5,11 @@
       "ProjectGuid": "5ae98247-02f1-4316-8820-7a89c462e3af",
       "DisplayName": "GAME1017_EmptyEngine",
       "ColorIndex": 0
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
     }
   },
   "NextColorIndex": 1
