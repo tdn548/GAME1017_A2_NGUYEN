@@ -509,8 +509,10 @@ void EndState::Enter()
 			pElement = pElement->NextSiblingElement();
 		}
 
-	string die_label = "You Died ! Your score is: " + to_string(die);;
+	string die_label = "YOU DIED ! YOUR SCORE IS : " + to_string(die);;
 	m_DieScore = new Label("Label", WIDTH /2 - 170, 170, die_label.c_str());
+	m_DieScore->SetColor({ 0,0,255, 255 });
+
 
 
 	TEMA::Load("Img/foreground.png", "end");
