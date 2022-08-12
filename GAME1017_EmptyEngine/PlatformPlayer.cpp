@@ -10,7 +10,7 @@ m_state(STATE_JUMPING), m_isGrounded(false), m_isFacingLeft(false), m_isDying(fa
 m_maxVelX(9.0), m_maxVelY(JUMPFORCE), m_grav(GRAVITY), m_drag(0.85)
 {
 	m_accelX = m_accelY = m_velX = m_velY = 0.0;
-	// SetAnimation(?,?,?,?); // Initialize jump animation. 
+	// Initialize jump animation. 
 	// Idle spriteMin is 0 spriteMax is 1
 	// Run spriteMin is 0 max is 8
 	// Jump spritemin is 8, max is 9
@@ -33,7 +33,7 @@ void PlatformPlayer::Update()
 		{
 			m_state = STATE_RUNNING;
 			// Idle spriteMin is 0 spriteMax is 1
-			// // Run spriteMin is 0 max is 8
+			// Run spriteMin is 0 max is 8
 			// Jump spritemin is 8, max is 9
 			SetAnimation(3, 0, 8, 0);
 	
@@ -94,9 +94,8 @@ void PlatformPlayer::Update()
 			// Set state to idling.
 			m_state = STATE_IDLING;
 
-			// SetAnimation(?,?,?,?);
 			// because the sprite does not have idle so I changed sprite max from 1 to 2 and frame to 24 to see the change in idle
-			SetAnimation(3, 0, 8); //1.0.1)
+			SetAnimation(3, 0, 8); 
 
 		}
 		// Transition to jump.
@@ -108,7 +107,6 @@ void PlatformPlayer::Update()
 			// Set state to jumping.
 			m_state = STATE_RUNNING;
 
-			// SetAnimation(?,?,?,?);
 			SetAnimation(1, 8, 9, 0);
 			SOMA::PlaySound("jump");
 		
@@ -149,7 +147,6 @@ void PlatformPlayer::Update()
 			// Set state to running.
 			m_state = STATE_RUNNING;
 
-			// SetAnimation(?,?,?,?);
 			SetAnimation(2, 8, 9, 0);
 		}
 		if (IsDying())
@@ -209,6 +206,7 @@ void PlatformPlayer::Update()
 		break;
 
 	}
+
 	// Player movement. Universal for all states. X-axis first.
 	m_velX += m_accelX;
 	m_velX *= (m_isGrounded ? m_drag : 1.0); // Could replace 1.0 with air friction
@@ -249,14 +247,6 @@ void PlatformPlayer::Update()
 
 void PlatformPlayer::Render()
 {
-	// To animate the sprite, use SDL_RenderCopyExF() 
-	// and you will have to access the TextureManager 
-	// and pass in a key such as "player".
-	// But for this part, we're just going to use a colored square.
-	//SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 255, 0, 255);
-	//SDL_RenderFillRectF(Engine::Instance().GetRenderer(), &m_dst);
-	// SDL_RenderCopyExF() for animated character. Dont forget facing
-
 	if (m_isFacingLeft)
 	{
 		SDL_RenderCopyExF(Engine::Instance().GetRenderer(), TEMA::GetTexture("player"),
@@ -267,8 +257,6 @@ void PlatformPlayer::Render()
 		SDL_RenderCopyExF(Engine::Instance().GetRenderer(), TEMA::GetTexture("player"),
 			&m_src, &m_dst, NULL, NULL, SDL_FLIP_NONE);
 	}
-
-	
 }
 
 void PlatformPlayer::Stop()

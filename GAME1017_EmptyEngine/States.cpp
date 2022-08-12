@@ -224,10 +224,6 @@ void GameState::Update()
 	}
 	m_timer.Update();
 
-	for (size_t i = 0; i < m_bg.size(); i++)
-	{
-		m_bg[i]->Update();
-	}
 
 	for (auto &i : m_obstacle)
 	{
@@ -269,49 +265,21 @@ void GameState::Update()
 			m_obstacle.erase(std::remove(m_obstacle.begin(), m_obstacle.end(), i), m_obstacle.end());
 		}
 	}
+
+	// Only move bg while player is still alive
+	if (!pObj->IsDying())
+	{
+		for (size_t i = 0; i < m_bg.size(); i++)
+		{
+			m_bg[i]->Update();
+		}
+	}
+
+	pObj = nullptr;
+	delete pObj;
+	pObsBox = nullptr;
+	delete pObsBox;
 }
-	
-	/*PlatformPlayer* pObj = dynamic_cast<PlatformPlayer*>(GetGo("player"));
-	SDL_FRect* pBound = pObj->GetDst();
-	SDL_FRect* pLevelB;
-	SDL_FRect pLevel = { 0,700,1024,10 };*/
-
-	//for (unsigned i = 0; i < pLevel->GetObstacles().size(); i++)
-	//{
-	//	SDL_FRect* pTile = pLevel->GetObstacles()[i]->GetDst();
-	////	// do collision check Reverse if chck to cut down on nesting
-	//	if (!COMA::AABBCheck(*pBound, pLevel)) continue;
-	////	//if colliding with top side of tile
-	//		if ((pBound->y + pBound->h) - (float)pObj->GetVelY() >= 700 && !COMA::AABBCheck(*pBound, pLevel))
-	//		{
-	//			pObj->StopY();
-	//			pObj->SetY(700 - pBound->h);
-	//			pObj->SetGrounded(true);
-			/*}*/
-		////	// if colliding with bottom side of tile
-		//	else if ((pBound->y)  -(float)pObj->GetVelY() >= (pTile->y + pTile->h ))
-		//	{
-		//		pObj->StopY();
-		//		pObj->SetY(pTile->y +  pTile->h);
-		//	}
-		////	// if colliding with left side of tile
-		//	else if ((pBound->x + pBound->w) - (float)pObj->GetVelX() <= pTile->x)
-		//	{
-		//		pObj->StopX();
-		//		pObj->SetX(pTile->x - pBound->w);
-		//	}
-		////	// if collising with right side of tile
-		//	else if ((pBound->x) - (float)pObj->GetVelX() >= (pTile->x + pTile->w))
-		//	{
-		//		pObj->StopX();
-		//		pObj->SetX(pTile->x + pTile->w);
-		//	}
-		////{
-
-		////}
-	/*}*/
-
-
 
 
 void GameState::Render()
