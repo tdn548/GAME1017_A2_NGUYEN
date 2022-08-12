@@ -15,14 +15,15 @@ private:
 	time_t m_lastTime;
 	time_t m_currentTime;
 
+
 public:
 	Timer();
 	void Start();
 	void Update();
 	void Resume();
 	void Pause();
-
 	std::string GetTime();
+	int GetLastTime() { return m_elapsedTotal + m_elapsed; };
 	bool HasChanged();
 };
 

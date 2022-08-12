@@ -2,10 +2,11 @@
 #include "EventManager.h"
 #include "SoundManager.h"
 #include "TextureManager.h"
+#include "StateManager.h"
 #include <cmath>
 
 PlatformPlayer::PlatformPlayer(SDL_Rect s, SDL_FRect d) :AnimatedSpriteObject(s, d),
-m_state(STATE_JUMPING), m_isGrounded(false), m_isFacingLeft(false),
+m_state(STATE_JUMPING), m_isGrounded(false), m_isFacingLeft(false), m_isDying(false),
 m_maxVelX(9.0), m_maxVelY(JUMPFORCE), m_grav(GRAVITY), m_drag(0.85)
 {
 	m_accelX = m_accelY = m_velX = m_velY = 0.0;
@@ -19,6 +20,11 @@ m_maxVelX(9.0), m_maxVelY(JUMPFORCE), m_grav(GRAVITY), m_drag(0.85)
 
 void PlatformPlayer::Update()
 {
+	if (timer > 0)
+	{
+		timer--;
+	}
+
 	switch (m_state) // Inside each case is the behaviour in and transitions from that state.
 	{
 	case STATE_IDLING:
@@ -50,6 +56,21 @@ void PlatformPlayer::Update()
 			SetAnimation(4, 0, 4, 128);
 			SOMA::PlaySound("roll", -1,2);
 		}
+		else if (EVMA::KeyPressed(SDL_SCANCODE_1))
+		{
+			m_state = STATE_DEATH;
+			SetAnimation(8, 4, 9, 128);
+			timer = 44;
+			SOMA::PlaySound("explosion");
+		}
+		if (IsDying())
+		{
+			m_state = STATE_DEATH;
+			timer = 45;
+			SetAnimation(8, 4, 9, 128);
+			SOMA::PlaySound("explosion");
+
+		}
 		break;
 	case STATE_RUNNING:
 		// Move on ground or air 
@@ -75,8 +96,8 @@ void PlatformPlayer::Update()
 
 			// SetAnimation(?,?,?,?);
 			// because the sprite does not have idle so I changed sprite max from 1 to 2 and frame to 24 to see the change in idle
-			SetAnimation(1, 0, 1);
-	
+			SetAnimation(3, 0, 8); //1.0.1)
+
 		}
 		// Transition to jump.
 		else if (EVMA::KeyPressed(SDL_SCANCODE_SPACE) && m_isGrounded)
@@ -99,6 +120,13 @@ void PlatformPlayer::Update()
 			SOMA::PlaySound("roll", -1, 2);
 		}
 		break;
+		if (IsDying())
+		{
+			m_state = STATE_DEATH;
+			timer = 45;
+			SetAnimation(8, 4, 9, 128);
+			SOMA::PlaySound("explosion");
+		}
 	case STATE_JUMPING:
 		// Move in mid-air.
 		if (EVMA::KeyHeld(SDL_SCANCODE_A))
@@ -124,12 +152,19 @@ void PlatformPlayer::Update()
 			// SetAnimation(?,?,?,?);
 			SetAnimation(2, 8, 9, 0);
 		}
+		if (IsDying())
+		{
+			m_state = STATE_DEATH;
+			timer = 45;
+			SetAnimation(8, 4, 9, 128);
+			SOMA::PlaySound("explosion");
+		}
 		break;
 	case STATE_ROLLING:
 		if (EVMA::KeyReleased(SDL_SCANCODE_S))
 		{
 			m_state = STATE_IDLING;
-			SetAnimation(1, 0, 1);
+			SetAnimation(3, 0, 8);
 			SOMA::StopSound(2);
 		}
 		if (EVMA::KeyHeld(SDL_SCANCODE_A))
@@ -155,6 +190,21 @@ void PlatformPlayer::Update()
 				m_state = STATE_RUNNING;
 				SetAnimation(3, 0, 8, 0);
 			}
+		}
+		if (IsDying())
+		{
+			m_state = STATE_DEATH;
+			timer = 45;
+			SetAnimation(8, 4, 9, 128);
+			SOMA::PlaySound("explosion");
+		}
+		break;
+	case STATE_DEATH:
+		
+		
+		if (timer <= 0)
+		{
+			STMA::ChangeState(new EndState());
 		}
 		break;
 
@@ -192,6 +242,7 @@ void PlatformPlayer::Update()
 		m_dst.y = HEIGHT - 200;
 		m_isGrounded = true;
 	}
+
 	 Animate();
 
 }
@@ -245,3 +296,23 @@ bool PlatformPlayer::IsGrounded() { return m_isGrounded; }
 double PlatformPlayer::GetVelX() { return m_velX; }
 
 double PlatformPlayer::GetVelY() { return m_velY; }
+
+PlayerState PlatformPlayer::GetState()
+{
+	return m_state;
+}
+
+bool PlatformPlayer::IsDying()
+{
+	return m_isDying;
+}
+
+void PlatformPlayer::SetState(PlayerState state)
+{
+	m_state = state;
+}
+
+void PlatformPlayer::Dying(bool dying)
+{
+	m_isDying = dying;
+}

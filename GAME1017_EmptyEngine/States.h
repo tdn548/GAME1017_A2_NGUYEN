@@ -8,6 +8,7 @@
 #include "FontManager.h"
 #include "Timer.h"
 #include "Background.h"
+#include "Obstacles.h"
 
 class State // This is the abstract base class for all states
 {
@@ -26,10 +27,13 @@ protected: // Private but inherited
 	vector<std::pair<std::string, GameObject*>> m_objects; // hold all the gameobjects in the state
 	//Background vector
 	vector<Background*> m_bg;
-
-
+	vector<Obstacle*> m_obstacle;
+	GameObject* m_pObstacle;
 	Label* m_label;
+	Label* m_highestscore;
+	Label* m_DieScore;
 	Timer m_timer;
+
 };
 
 class TitleState : public State
@@ -45,12 +49,16 @@ public:
 class GameState : public State
 {
 public:
+
+	int score;
 	GameState();
 	virtual void Enter();
 	virtual void Update();
 	virtual void Render();
 	virtual void Exit();
 	virtual void Resume();
+	friend class EndState;
+
 };
 
 class PauseState : public State
@@ -61,16 +69,20 @@ public: // Public methods.
 	virtual void Update();
 	virtual void Render();
 	virtual void Exit();
+
 };
 
 class EndState : public State
 {
 public:
+	int die;
 	EndState();
 	virtual void Enter();
 	virtual void Update();
 	virtual void Render();
 	virtual void Exit();
+	friend class GameState;
+
 };
 
 
