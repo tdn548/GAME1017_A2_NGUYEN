@@ -1,2 +1,19 @@
-﻿  States.cpp
-  GAME1017_EmptyEngine.vcxproj -> C:\Users\sonth\OneDrive\game\GAME 1017 GAME FUNDAMENTAL 2\GAME1017_A2_NGUYEN_MHulfeldW\Debug\GAME1017_EmptyEngine.exe
+﻿  Background.cpp
+  Button3.cpp
+  CollisionManager.cpp
+  Engine.cpp
+  EventManager.cpp
+  FontManager.cpp
+  Main.cpp
+  MathManager.cpp
+  Obstacles.cpp
+  PlatformPlayer.cpp
+  Primitives.cpp
+  SoundManager.cpp
+  StateManager.cpp
+  States.cpp
+  TextureManager.cpp
+  Timer.cpp
+  tinyxml2.cpp
+  Generating Code...
+  GAME1017_EmptyEngine.vcxproj -> D:\Repos\GAME1017_A2_NGUYEN_MHulfeldW\Debug\GAME1017_EmptyEngine.exe

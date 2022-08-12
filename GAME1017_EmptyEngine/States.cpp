@@ -240,10 +240,6 @@ void GameState::Update()
 	SDL_FRect* pObsBox;
 	SDL_FRect pRollingBox = { (pObj->GetDst()->x) + 35 , (pObj->GetDst()->y) + 60, (pObj->GetDst()->w / 2), (pObj->GetDst()->h / 2) };
 
-	/*if (pObj->GetState() == STATE_ROLLING)
-	{
-		*pHitbox = { (pObj->GetDst()->x) + 35 , (pObj->GetDst()->y) + 60, (pObj->GetDst()->w / 2), (pObj->GetDst()->h / 2) };
-	}*/
 
 	for (auto& i: m_obstacle)
 	{	
@@ -264,6 +260,14 @@ void GameState::Update()
 			}
 		}
 		
+	}
+
+	for (auto& i : m_obstacle)
+	{
+		if (i->GetDst()->x < 0 - i->GetDst()->w)
+		{
+			m_obstacle.erase(std::remove(m_obstacle.begin(), m_obstacle.end(), i), m_obstacle.end());
+		}
 	}
 }
 	
