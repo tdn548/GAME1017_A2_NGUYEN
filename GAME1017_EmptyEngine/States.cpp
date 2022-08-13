@@ -308,29 +308,6 @@ void GameState::Render()
 		i->Render();
 	}
 
-	if (EVMA::KeyHeld(SDL_SCANCODE_L))
-	{
-		SDL_FRect pPlayer;
-		SDL_FRect pObst;
-		SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 255, 255, 255);
-		for (auto const& i : m_objects)
-		{
-			if (i.first == "player")
-			{
-				pPlayer = { i.second->GetDst()->x + 30,i.second->GetDst()->y , i.second->GetDst()->w - 60, i.second->GetDst()->h };
-			}
-		}
-
-		for (auto& i : m_obstacle)
-		{
-			pObst = { i->GetDst()->x,i->GetDst()->y,i->GetDst()->w,i->GetDst()->h };
-			SDL_RenderDrawRectF(Engine::Instance().GetRenderer(), &pObst);
-		}
-		
-		
-		SDL_RenderDrawRectF(Engine::Instance().GetRenderer(), &pPlayer);
-	}
-
 	// Draw anew.
 	SDL_RenderPresent(Engine::Instance().GetRenderer());
 }
